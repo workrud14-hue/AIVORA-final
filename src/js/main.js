@@ -18,11 +18,12 @@ function productCardHTML(product) {
   if (onSale) badges.push('<span class="badge-sale px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">Sale</span>');
 
   const img = product.image || 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=400';
+  const fallback = 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=400';
 
   return `
     <a href="product.html?slug=${product.slug}" class="product-card group">
       <div class="relative aspect-[4/3] overflow-hidden bg-slate-100">
-        <img src="${img}" alt="${product.title}" class="w-full h-full object-cover" referrerpolicy="no-referrer" />
+        <img src="${img}" alt="${product.title}" class="w-full h-full object-cover" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${fallback}'" />
         ${badges.length ? `<div class="absolute top-3 left-3 flex flex-wrap gap-1.5">${badges.join('')}</div>` : ''}
       </div>
       <div class="p-5 flex flex-col flex-grow">
@@ -465,6 +466,15 @@ function formatBlogContent(content) {
     .join('');
 }
 
+function initAdminShortcut() {
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+      e.preventDefault();
+      window.location.href = 'admin.html';
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress();
   initNavScroll();
@@ -473,6 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRevealAnimations();
   initFAQAccordion();
   initNewsletterForm();
+  initAdminShortcut();
   loadSiteLogo();
 
   loadFeaturedProducts();
