@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aivora - Premium AI Digital Products for Creators</title>
+    <meta name="description" content="Discover AI prompt packs, templates, automation tools, spreadsheets, digital planners, business resources, and creator assets designed to help you work faster and smarter." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Aivora - Premium AI Digital Products for Creators" />
+    <meta property="og:description" content="Discover AI prompt packs, templates, automation tools, and creator assets designed to help you work faster and smarter." />
+    <meta property="og:image" content="./assets/images/logo.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script type="text/javascript" src="https://payhip.com/payhip.js"></script>
+  </head>
+  <body class="bg-bg text-text font-sans selection:bg-primary/20 antialiased">
+
+    <div id="scroll-progress"></div>
+
+    <div id="loading-overlay">
+      <div class="flex flex-col items-center">
+        <div class="spinner mb-4"></div>
+        <div class="font-medium text-sm text-slate-400 uppercase tracking-widest animate-pulse">AIVORA</div>
+      </div>
+    </div>
+
+    <div class="aurora-bg">
+      <div class="blob blob-primary"></div>
+      <div class="blob blob-secondary"></div>
+      <div class="blob blob-accent"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <nav class="fixed top-0 inset-x-0 z-40 transition-all duration-300 py-5 border-b border-transparent">
+      <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2.5 text-2xl font-black tracking-tight text-text group">
+          <img data-site-logo src="" alt="Aivora Logo" class="w-9 h-9 rounded-xl object-cover border border-slate-200 shadow-lg group-hover:scale-105 transition-transform" referrerpolicy="no-referrer" style="display:none" />
+          <span data-logo-fallback class="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center text-white font-black text-sm shadow-lg">A</span>
+          <span class="gradient-text">Aivora</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="index.html" class="text-primary relative after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full">Home</a>
+          <a href="products.html" class="text-slate-600 hover:text-primary transition-colors">Products</a>
+          <a href="blog.html" class="text-slate-600 hover:text-primary transition-colors">Blog</a>
+          <a href="about.html" class="text-slate-600 hover:text-primary transition-colors">About</a>
+          <a href="faq.html" class="text-slate-600 hover:text-primary transition-colors">FAQ</a>
+          <a href="contact.html" class="text-slate-600 hover:text-primary transition-colors">Contact</a>
+        </div>
+
+        <div class="hidden md:flex items-center gap-4">
+          <a href="products.html" class="inline-flex items-center h-10 px-5 rounded-xl btn-primary text-xs font-semibold tracking-wider uppercase">
+            Browse Products
+          </a>
+        </div>
+
+        <button id="mobile-menu-btn" aria-expanded="false" class="md:hidden p-2 text-slate-600 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded-lg">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden fixed top-[72px] inset-x-6 glass-panel rounded-2xl p-6 flex flex-col gap-4 border border-slate-200 opacity-0 -translate-y-4 transition-all duration-300 z-50">
+        <a href="index.html" class="text-primary font-medium">Home</a>
+        <a href="products.html" class="text-slate-600 hover:text-primary font-medium">Products</a>
+        <a href="blog.html" class="text-slate-600 hover:text-primary font-medium">Blog</a>
+        <a href="about.html" class="text-slate-600 hover:text-primary font-medium">About</a>
+        <a href="faq.html" class="text-slate-600 hover:text-primary font-medium">FAQ</a>
+        <a href="contact.html" class="text-slate-600 hover:text-primary font-medium">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative pt-40 pb-24 md:pt-52 md:pb-36 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gradient-bg-soft border border-primary/20 text-primary text-xs font-semibold tracking-wide uppercase mb-8 reveal opacity-0">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          Premium AI Marketplace
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] mb-8 reveal opacity-0" style="transition-delay: 150ms;">
+          <span class="gradient-text block">Premium AI Digital Products</span>
+          <span class="text-text block mt-2">for Creators</span>
+        </h1>
+
+        <p class="max-w-2xl mx-auto text-slate-500 text-base md:text-lg leading-relaxed mb-12 reveal opacity-0" style="transition-delay: 300ms;">
+          Discover AI prompt packs, templates, automation tools, spreadsheets, digital planners, business resources, and creator assets designed to help you work faster and smarter.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 reveal opacity-0" style="transition-delay: 450ms;">
+          <a href="products.html" class="w-full sm:w-auto inline-flex items-center justify-center h-14 px-8 rounded-2xl btn-primary text-sm font-bold tracking-wider uppercase group">
+            Browse Products
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="ml-2 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#categories" class="w-full sm:w-auto inline-flex items-center justify-center h-14 px-8 rounded-2xl btn-secondary text-sm font-bold tracking-wider uppercase">
+            Explore Collections
+          </a>
+        </div>
+
+        <!-- Floating mockup showcase -->
+        <div class="relative max-w-5xl mx-auto reveal opacity-0" style="transition-delay: 600ms;">
+          <div class="absolute inset-0 gradient-bg-soft blur-3xl opacity-70"></div>
+          <div class="relative glass-panel rounded-[24px] p-4 md:p-6 border border-slate-200 shadow-2xl">
+            <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-4">
+              <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+              <span class="text-[11px] text-slate-400 ml-4">aivora.ai/marketplace</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              <div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider mb-3">Prompt Pack</div>
+                  <h4 class="font-bold text-base mb-2">Master Prompt Library</h4>
+                  <p class="text-xs text-slate-500 leading-relaxed">20+ copy-and-paste prompts for content, copywriting, and research.</p>
+                </div>
+                <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
+                  <span class="font-semibold text-text">$4.99</span>
+                  <span>PDF</span>
+                </div>
+              </div>
+              <div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm flex flex-col justify-between md:translate-y-6">
+                <div>
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider mb-3">Template</div>
+                  <h4 class="font-bold text-base mb-2">Notion Dashboard Kit</h4>
+                  <p class="text-xs text-slate-500 leading-relaxed">Fully built workspace for planning, tracking, and shipping.</p>
+                </div>
+                <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
+                  <span class="font-semibold text-text">$12.00</span>
+                  <span>Notion</span>
+                </div>
+              </div>
+              <div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider mb-3">Spreadsheet</div>
+                  <h4 class="font-bold text-base mb-2">Finance Tracker Sheet</h4>
+                  <p class="text-xs text-slate-500 leading-relaxed">Automated Google Sheets budget with charts and forecasts.</p>
+                </div>
+                <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
+                  <span class="font-semibold text-text">$7.50</span>
+                  <span>Sheets</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Categories -->
+    <section id="categories" class="py-24 md:py-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal opacity-0">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Browse by Category</span>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Explore Collections</h2>
+          <p class="text-slate-500 mt-4">Find exactly what you need across our curated digital product categories.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/></svg>
+            </div>
+            <h3 class="font-bold text-base">AI Prompt Packs</h3>
+            <p class="text-xs text-slate-500">Copy-paste prompts for any workflow.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer" style="transition-delay: 80ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3 class="font-bold text-base">ChatGPT Resources</h3>
+            <p class="text-xs text-slate-500">Guides, playbooks, and templates.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer" style="transition-delay: 160ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <h3 class="font-bold text-base">Digital Templates</h3>
+            <p class="text-xs text-slate-500">Design and document frameworks.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer" style="transition-delay: 240ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+            </div>
+            <h3 class="font-bold text-base">Notion Templates</h3>
+            <p class="text-xs text-slate-500">Workspaces for every use case.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 8h18"/><path d="M8 21V8"/></svg>
+            </div>
+            <h3 class="font-bold text-base">Excel & Google Sheets</h3>
+            <p class="text-xs text-slate-500">Automated calculators and trackers.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer" style="transition-delay: 80ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+            </div>
+            <h3 class="font-bold text-base">Canva Templates</h3>
+            <p class="text-xs text-slate-500">Branded design templates ready to edit.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer" style="transition-delay: 160ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            </div>
+            <h3 class="font-bold text-base">Business Tools</h3>
+            <p class="text-xs text-slate-500">Frameworks to run your operations.</p>
+          </div>
+          <div class="card-premium p-6 flex flex-col items-start gap-3 reveal opacity-0 cursor-pointer" style="transition-delay: 240ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg-soft flex items-center justify-center text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+            </div>
+            <h3 class="font-bold text-base">Marketing Assets</h3>
+            <p class="text-xs text-slate-500">Swipe files, funnels, and campaigns.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-24 md:py-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal opacity-0">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Featured Products</span>
+            <h2 class="text-3xl md:text-5xl font-black tracking-tight">Handpicked for You</h2>
+          </div>
+          <a href="products.html" class="inline-flex items-center text-sm font-semibold text-primary hover:gap-2 transition-all gap-1">
+            View all products
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div id="featured-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="col-span-full flex justify-center py-24">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Aivora -->
+    <section class="py-24 md:py-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal opacity-0">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Why Choose Aivora</span>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Built for serious creators</h2>
+          <p class="text-slate-500 mt-4">Every product is crafted to help you ship faster and smarter.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="card-premium p-8 reveal-left opacity-0">
+            <div class="w-12 h-12 rounded-2xl gradient-bg flex items-center justify-center text-white mb-5 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Premium Quality</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">Every asset is reviewed and polished to meet a high bar before it reaches you.</p>
+          </div>
+          <div class="card-premium p-8 reveal opacity-0" style="transition-delay: 100ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg flex items-center justify-center text-white mb-5 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 22 4-10 4 10"/></svg>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Thoughtfully Designed</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">Crafted with quality, simplicity, and usability in mind from the ground up.</p>
+          </div>
+          <div class="card-premium p-8 reveal opacity-0" style="transition-delay: 200ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg flex items-center justify-center text-white mb-5 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Instant Delivery</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">Download immediately after checkout. No waiting, no friction.</p>
+          </div>
+          <div class="card-premium p-8 reveal-right opacity-0" style="transition-delay: 300ms;">
+            <div class="w-12 h-12 rounded-2xl gradient-bg flex items-center justify-center text-white mb-5 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Lifetime Updates</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">Buy once and get every future improvement to the product, free.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Sellers Carousel -->
+    <section class="py-24 md:py-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal opacity-0">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Best Sellers</span>
+            <h2 class="text-3xl md:text-5xl font-black tracking-tight">Top downloads this week</h2>
+          </div>
+          <div class="flex gap-2">
+            <button id="carousel-prev" aria-label="Previous" class="w-11 h-11 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button id="carousel-next" aria-label="Next" class="w-11 h-11 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="bestsellers-carousel" class="carousel-scroll flex gap-6 overflow-x-auto pb-4 -mx-6 px-6">
+          <div class="flex items-center justify-center w-full py-24">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 md:py-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal opacity-0">
+          <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Testimonials</span>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Loved by creators worldwide</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="glass-panel p-8 rounded-[20px] reveal-left opacity-0">
+            <div class="flex mb-4">
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">"The prompt pack completely changed how I work. I used to spend hours writing client emails — now it takes minutes and the output is better than I could've written myself."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">ML</div>
+              <div>
+                <h4 class="font-bold text-sm">Marcus Lee</h4>
+                <p class="text-xs text-slate-500">Growth Marketer</p>
+              </div>
+            </div>
+          </div>
+          <div class="glass-panel p-8 rounded-[20px] reveal opacity-0" style="transition-delay: 100ms;">
+            <div class="flex mb-4">
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">"These aren't basic prompts — they're robust context structures that force ChatGPT to produce professional output. It completely changed my writing workflow."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">SC</div>
+              <div>
+                <h4 class="font-bold text-sm">Sarah Chen</h4>
+                <p class="text-xs text-slate-500">SaaS Content Designer</p>
+              </div>
+            </div>
+          </div>
+          <div class="glass-panel p-8 rounded-[20px] reveal-right opacity-0" style="transition-delay: 200ms;">
+            <div class="flex mb-4">
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 star-filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">"As a freelance developer, saving time is everything. Aivora's templates gave me clean structures that helped me ship project briefs in record time."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">OK</div>
+              <div>
+                <h4 class="font-bold text-sm">Oliver Kroos</h4>
+                <p class="text-xs text-slate-500">Freelance Developer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-24 md:py-32 relative z-10">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="relative rounded-[28px] p-10 md:p-16 overflow-hidden shadow-2xl reveal opacity-0">
+          <div class="absolute inset-0 gradient-bg"></div>
+          <div class="absolute -top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 text-center text-white">
+            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4">Stay Updated</h2>
+            <p class="max-w-md mx-auto text-white/80 text-sm md:text-base mb-8">Get notified whenever new AI resources and premium digital products are released.</p>
+            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-4">
+              <input type="email" required placeholder="Enter your email" class="flex-grow h-12 px-5 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:bg-white/25 transition-all text-sm" />
+              <button type="submit" class="h-12 px-8 rounded-xl bg-white text-primary font-bold uppercase tracking-wider text-xs transition hover:bg-slate-100 cursor-pointer">Subscribe</button>
+            </form>
+            <p id="newsletter-success" class="hidden text-xs text-white/90 font-medium">Thanks! Check your inbox to confirm.</p>
+            <span class="text-[10px] text-white/60 uppercase tracking-widest block mt-2">No spam. Unsubscribe anytime.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-20 pb-12 relative z-10 bg-white border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-1">
+          <a href="index.html" class="flex items-center gap-2.5 text-2xl font-black tracking-tight text-text mb-6">
+            <span class="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" class="w-4 h-4"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </span>
+            <span class="gradient-text">Aivora</span>
+          </a>
+          <p class="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">Premium AI digital products for creators, entrepreneurs, and businesses.</p>
+          <div class="flex items-center gap-3">
+            <a href="#" aria-label="Twitter" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="GitHub" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition"><i data-lucide="github" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="LinkedIn" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-text mb-6 uppercase tracking-wider">Products</h4>
+          <ul class="space-y-3 text-sm text-slate-500">
+            <li><a href="products.html" class="hover:text-primary transition-colors">All Products</a></li>
+            <li><a href="product.html?slug=ai-prompt-pack" class="hover:text-primary transition-colors">AI Prompt Pack</a></li>
+            <li><a href="product.html?slug=email-swipe-file" class="hover:text-primary transition-colors">Email Swipe Files</a></li>
+            <li><a href="products.html" class="hover:text-primary transition-colors">Collections</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-text mb-6 uppercase tracking-wider">Company</h4>
+          <ul class="space-y-3 text-sm text-slate-500">
+            <li><a href="about.html" class="hover:text-primary transition-colors">About</a></li>
+            <li><a href="blog.html" class="hover:text-primary transition-colors">Blog</a></li>
+            <li><a href="contact.html" class="hover:text-primary transition-colors">Contact</a></li>
+            <li><a href="faq.html" class="hover:text-primary transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-text mb-6 uppercase tracking-wider">Support</h4>
+          <ul class="space-y-3 text-sm text-slate-500">
+            <li><a href="privacy.html" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-primary transition-colors">Terms of Service</a></li>
+            <li><a href="refund.html" class="hover:text-primary transition-colors">Refund Policy</a></li>
+            <li><a href="cookie-policy.html" class="hover:text-primary transition-colors">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <span>© 2026 Aivora. All rights reserved.</span>
+        <span>Secure checkout with Payhip integration.</span>
+      </div>
+    </footer>
+
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-xl btn-primary flex items-center justify-center cursor-pointer shadow-lg opacity-0 pointer-events-none translate-y-4 transition-all duration-300" aria-label="Scroll Back to Top">
+      <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+    </script>
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

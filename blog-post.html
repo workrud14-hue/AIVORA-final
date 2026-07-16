@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Post - Aivora</title>
+    <meta name="description" content="Read insights and guides from the Aivora team." />
+
+    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-bg text-text font-sans selection:bg-primary/20 antialiased">
+
+    <div id="scroll-progress"></div>
+
+    <div id="loading-overlay">
+      <div class="flex flex-col items-center">
+        <div class="spinner mb-4"></div>
+        <div class="font-medium text-sm text-slate-400 uppercase tracking-widest animate-pulse">AIVORA</div>
+      </div>
+    </div>
+
+    <div class="aurora-bg">
+      <div class="blob blob-primary"></div>
+      <div class="blob blob-secondary"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <nav class="fixed top-0 inset-x-0 z-40 transition-all duration-300 py-5 border-b border-transparent">
+      <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2.5 text-2xl font-black tracking-tight text-text group">
+          <img data-site-logo src="" alt="Aivora Logo" class="w-9 h-9 rounded-xl object-cover border border-slate-200 shadow-lg group-hover:scale-105 transition-transform" referrerpolicy="no-referrer" style="display:none" />
+          <span data-logo-fallback class="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center text-white font-black text-sm shadow-lg">A</span>
+          <span class="gradient-text">Aivora</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="index.html" class="text-slate-600 hover:text-primary transition-colors">Home</a>
+          <a href="products.html" class="text-slate-600 hover:text-primary transition-colors">Products</a>
+          <a href="blog.html" class="text-primary relative after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-full">Blog</a>
+          <a href="about.html" class="text-slate-600 hover:text-primary transition-colors">About</a>
+          <a href="faq.html" class="text-slate-600 hover:text-primary transition-colors">FAQ</a>
+          <a href="contact.html" class="text-slate-600 hover:text-primary transition-colors">Contact</a>
+        </div>
+
+        <div class="hidden md:flex items-center gap-4">
+          <a href="products.html" class="inline-flex items-center h-10 px-5 rounded-xl btn-primary text-xs font-semibold tracking-wider uppercase">Browse Products</a>
+        </div>
+
+        <button id="mobile-menu-btn" aria-expanded="false" class="md:hidden p-2 text-slate-600 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary rounded-lg">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden fixed top-[72px] inset-x-6 glass-panel rounded-2xl p-6 flex flex-col gap-4 border border-slate-200 opacity-0 -translate-y-4 transition-all duration-300 z-50">
+        <a href="index.html" class="text-slate-600 hover:text-primary font-medium">Home</a>
+        <a href="products.html" class="text-slate-600 hover:text-primary font-medium">Products</a>
+        <a href="blog.html" class="text-primary font-medium">Blog</a>
+        <a href="about.html" class="text-slate-600 hover:text-primary font-medium">About</a>
+        <a href="faq.html" class="text-slate-600 hover:text-primary font-medium">FAQ</a>
+        <a href="contact.html" class="text-slate-600 hover:text-primary font-medium">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Blog Post Content -->
+    <main class="pt-36 pb-24 md:pt-48 relative z-10" id="blog-post-section">
+      <div class="max-w-3xl mx-auto px-6">
+        <div class="flex justify-center py-24">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-20 pb-12 relative z-10 bg-white border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div>
+          <a href="index.html" class="flex items-center gap-2.5 text-2xl font-black tracking-tight text-text mb-6">
+            <span class="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" class="w-4 h-4"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </span>
+            <span class="gradient-text">Aivora</span>
+          </a>
+          <p class="text-slate-500 text-sm leading-relaxed max-w-xs">Premium AI digital products for creators, entrepreneurs, and businesses.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm text-text mb-6 uppercase tracking-wider">Products</h4>
+          <ul class="space-y-3 text-sm text-slate-500">
+            <li><a href="products.html" class="hover:text-primary transition-colors">All Products</a></li>
+            <li><a href="product.html?slug=ai-prompt-pack" class="hover:text-primary transition-colors">AI Prompt Pack</a></li>
+            <li><a href="product.html?slug=email-swipe-file" class="hover:text-primary transition-colors">Email Swipe Files</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm text-text mb-6 uppercase tracking-wider">Company</h4>
+          <ul class="space-y-3 text-sm text-slate-500">
+            <li><a href="about.html" class="hover:text-primary transition-colors">About</a></li>
+            <li><a href="blog.html" class="hover:text-primary transition-colors">Blog</a></li>
+            <li><a href="contact.html" class="hover:text-primary transition-colors">Contact</a></li>
+            <li><a href="faq.html" class="hover:text-primary transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm text-text mb-6 uppercase tracking-wider">Support</h4>
+          <ul class="space-y-3 text-sm text-slate-500">
+            <li><a href="privacy.html" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-primary transition-colors">Terms of Service</a></li>
+            <li><a href="refund.html" class="hover:text-primary transition-colors">Refund Policy</a></li>
+            <li><a href="cookie-policy.html" class="hover:text-primary transition-colors">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <span>© 2026 Aivora. All rights reserved.</span>
+        <span>Secure checkout with Payhip integration.</span>
+      </div>
+    </footer>
+
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-xl btn-primary flex items-center justify-center cursor-pointer shadow-lg opacity-0 pointer-events-none translate-y-4 transition-all duration-300" aria-label="Scroll Back to Top">
+      <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+    </script>
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
