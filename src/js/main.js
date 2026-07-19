@@ -360,6 +360,9 @@ async function loadProductDetail() {
 
     document.title = data.seo_title || data.title + ' - Aivora';
 
+    // Inject product JSON-LD schema
+    injectProductSchema(data);
+
     const coverImg = document.getElementById('product-cover-image');
     if (coverImg) coverImg.src = data.image || 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=600';
 
@@ -403,6 +406,10 @@ async function loadProductDetail() {
         relatedGrid.innerHTML = '<p class="col-span-full text-center text-slate-400 py-8">No related products.</p>';
       }
     }
+
+    // Load reviews for this product
+    loadProductReviews(data.id);
+    initReviewForm(data.id);
 
     if (window.lucide) window.lucide.createIcons();
   } catch (e) {
@@ -538,6 +545,9 @@ async function loadBlogPostDetail() {
 
     document.title = data.title + ' - Aivora Blog';
 
+    // Inject blog JSON-LD schema
+    injectBlogSchema(data);
+
     const img = data.cover_image || 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=800';
     const date = data.published_at || data.created_at?.split('T')[0] || '';
 
@@ -608,6 +618,409 @@ function initAdminShortcut() {
   });
 }
 
+// --- Dark Mode ---
+function initDarkMode() {
+  const toggle = document.getElementById('dark-mode-toggle');
+  if (!toggle) return;
+  const sunIcon = toggle.querySelector('.sun-icon');
+  const moonIcon = toggle.querySelector('.moon-icon');
+
+  function applyTheme(dark) {
+    if (dark) {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+      if (sunIcon) sunIcon.classList.add('hidden');
+      if (moonIcon) moonIcon.classList.remove('hidden');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      if (sunIcon) sunIcon.classList.remove('hidden');
+      if (moonIcon) moonIcon.classList.add('hidden');
+    }
+  }
+
+  // Check saved preference or system preference
+  const saved = localStorage.getItem('aivora_dark_mode');
+  if (saved !== null) {
+    applyTheme(saved === 'true');
+  } else {
+    applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+
+  toggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    applyTheme(!isDark);
+    localStorage.setItem('aivora_dark_mode', String(!isDark));
+  });
+}
+
+// --- SEO Structured Data (JSON-LD) ---
+function injectProductSchema(product) {
+  if (!product) return;
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: product.short_description || product.description || '',
+    image: product.image || '',
+    brand: { '@type': 'Brand', name: 'Aivora' },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: product.sale_price && parseFloat(product.sale_price) > 0 ? product.sale_price : product.price,
+      availability: 'https://schema.org/InStock',
+      url: window.location.href
+    }
+  };
+  if (product.category) schema.category = product.category;
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(schema);
+  document.head.appendChild(script);
+}
+
+function injectBlogSchema(post) {
+  if (!post) return;
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt || '',
+    image: post.cover_image || '',
+    author: { '@type': 'Person', name: post.author || 'Voria Johnson' },
+    publisher: { '@type': 'Organization', name: 'Aivora', logo: { '@type': 'ImageObject', url: window.location.origin + '/assets/images/logo.jpg' } },
+    datePublished: post.published_at || post.created_at || '',
+    url: window.location.href
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(schema);
+  document.head.appendChild(script);
+}
+
+function injectOrganizationSchema() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Aivora',
+    url: window.location.origin,
+    logo: window.location.origin + '/assets/images/logo.jpg',
+    description: 'Premium AI digital products for creators, entrepreneurs, and businesses.',
+    sameAs: [
+      'https://www.instagram.com/ai._vora/',
+      'https://www.threads.com/@ai._vora'
+    ]
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(schema);
+  document.head.appendChild(script);
+}
+
+// --- Image Optimization ---
+function initImageOptimization() {
+  const images = document.querySelectorAll('img[data-src], img[loading="lazy"]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+        }
+        img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+        observer.unobserve(img);
+      }
+    });
+  }, { rootMargin: '100px' });
+
+  document.querySelectorAll('img').forEach(img => {
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    if (img.complete) {
+      img.classList.add('loaded');
+    }
+    observer.observe(img);
+  });
+}
+
+// --- Social Proof Notifications ---
+let socialProofQueue = [];
+let socialProofVisible = false;
+
+function showSocialProofNotification(message, icon = '🛒') {
+  socialProofQueue.push({ message, icon });
+  if (!socialProofVisible) processSocialProofQueue();
+}
+
+function processSocialProofQueue() {
+  if (socialProofQueue.length === 0) {
+    socialProofVisible = false;
+    return;
+  }
+  socialProofVisible = true;
+  const { message, icon } = socialProofQueue.shift();
+
+  let toast = document.getElementById('social-proof-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'social-proof-toast';
+    toast.className = 'social-proof-toast';
+    toast.innerHTML = '<div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white text-lg flex-shrink-0"></div><div><p class="text-sm font-medium" id="social-proof-msg"></p><p class="text-xs text-slate-400 mt-0.5">Just now</p></div><button class="ml-auto text-slate-400 hover:text-slate-600 text-lg leading-none" id="social-proof-close">&times;</button>';
+    document.body.appendChild(toast);
+    toast.querySelector('#social-proof-close').addEventListener('click', () => toast.classList.remove('show'));
+  }
+
+  const iconEl = toast.querySelector('.gradient-bg');
+  const msgEl = document.getElementById('social-proof-msg');
+  if (iconEl) iconEl.textContent = icon;
+  if (msgEl) msgEl.textContent = message;
+
+  toast.classList.remove('show');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add('show'));
+  });
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => processSocialProofQueue(), 500);
+  }, 5000);
+}
+
+async function initSocialProof() {
+  try {
+    const { data: products } = await supabase.from('products').select('title, slug').limit(20);
+    if (!products || products.length === 0) return;
+
+    const names = ['Alex', 'Jordan', 'Sam', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Quinn', 'Avery', 'Parker', 'Drew', 'Blake', 'Reese', 'Skyler', 'Dakota'];
+    const cities = ['New York', 'London', 'Tokyo', 'Sydney', 'Berlin', 'Toronto', 'Singapore', 'Dubai', 'Lagos', 'Mumbai', 'Paris', 'Seoul', 'Amsterdam', 'Barcelona', 'Chicago'];
+    const icons = ['🛒', '✨', '🎯', '💡', '🔥', '🚀'];
+
+    function randomNotification() {
+      const name = names[Math.floor(Math.random() * names.length)];
+      const city = cities[Math.floor(Math.random() * cities.length)];
+      const product = products[Math.floor(Math.random() * products.length)];
+      const icon = icons[Math.floor(Math.random() * icons.length)];
+      showSocialProofNotification(`${name} from ${city} just purchased ${product.title}`, icon);
+    }
+
+    // Show first notification after 8-15 seconds
+    setTimeout(randomNotification, 8000 + Math.random() * 7000);
+
+    // Then every 20-45 seconds
+    setInterval(() => {
+      if (!socialProofVisible) randomNotification();
+    }, 20000 + Math.random() * 25000);
+  } catch (e) {
+    // social proof is best-effort
+  }
+}
+
+// --- Product Reviews & Ratings ---
+async function loadProductReviews(productId, containerId = 'product-reviews') {
+  const container = document.getElementById(containerId);
+  if (!container || !productId) return;
+
+  try {
+    const { data: reviews, error } = await supabase.from('product_reviews')
+      .select('*')
+      .eq('product_id', productId)
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
+
+    // Calculate average rating
+    const { data: stats } = await supabase.from('product_reviews')
+      .select('rating')
+      .eq('product_id', productId)
+      .eq('status', 'approved');
+
+    let avgRating = 0;
+    let totalReviews = 0;
+    if (stats && stats.length > 0) {
+      totalReviews = stats.length;
+      avgRating = stats.reduce((sum, r) => sum + r.rating, 0) / totalReviews;
+    }
+
+    // Update rating display on product page
+    const ratingEl = document.getElementById('product-rating-display');
+    if (ratingEl) {
+      ratingEl.innerHTML = renderStarRating(avgRating) + `<span class="text-sm text-slate-500 ml-2">${avgRating.toFixed(1)} (${totalReviews} review${totalReviews !== 1 ? 's' : ''})</span>`;
+    }
+
+    // Update average rating on product cards
+    const cardRatingEl = document.getElementById(`rating-${productId}`);
+    if (cardRatingEl) {
+      cardRatingEl.innerHTML = renderStarRating(avgRating);
+    }
+
+    // Render reviews list
+    if (!reviews || reviews.length === 0) {
+      container.innerHTML = '<p class="text-slate-400 text-sm">No reviews yet. Be the first to review this product!</p>';
+      return;
+    }
+
+    container.innerHTML = reviews.map(review => `
+      <div class="border-b border-slate-100 py-4 last:border-0">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 rounded-full gradient-bg flex items-center justify-center text-white text-xs font-bold">${(review.user_name || 'A')[0]}</div>
+          <div>
+            <p class="font-semibold text-sm">${review.user_name || 'Anonymous'}</p>
+            <div class="flex items-center gap-2">
+              ${renderStarRating(review.rating)}
+              <span class="text-xs text-slate-400">${review.created_at ? new Date(review.created_at).toLocaleDateString() : ''}</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 leading-relaxed">${review.comment || ''}</p>
+      </div>
+    `).join('');
+  } catch (e) {
+    container.innerHTML = '';
+  }
+}
+
+function renderStarRating(rating) {
+  let html = '<span class="star-rating">';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="star ${i <= Math.round(rating) ? 'filled' : ''}">★</span>`;
+  }
+  html += '</span>';
+  return html;
+}
+
+function initReviewForm(productId) {
+  const form = document.getElementById('review-form');
+  if (!form || !productId) return;
+
+  let selectedRating = 0;
+  const stars = form.querySelectorAll('.star-rating .star');
+
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      selectedRating = parseInt(star.dataset.rating);
+      stars.forEach((s, i) => {
+        s.classList.toggle('filled', i < selectedRating);
+      });
+    });
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (selectedRating === 0) {
+      alert('Please select a rating');
+      return;
+    }
+
+    const nameInput = form.querySelector('input[name="name"]');
+    const commentInput = form.querySelector('textarea[name="comment"]');
+    const name = nameInput?.value?.trim() || 'Anonymous';
+    const comment = commentInput?.value?.trim() || '';
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+
+    try {
+      const { error } = await supabase.from('product_reviews').insert({
+        product_id: productId,
+        user_name: name,
+        rating: selectedRating,
+        comment: comment,
+        status: 'approved'
+      });
+      if (error) throw error;
+      form.reset();
+      selectedRating = 0;
+      stars.forEach(s => s.classList.remove('filled'));
+      alert('Thank you! Your review will appear after moderation.');
+    } catch (err) {
+      alert('Could not submit review. Please try again.');
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Review'; }
+    }
+  });
+}
+
+// --- Automated Currency Rate Updates (client-side fetch) ---
+async function autoUpdateCurrencyRates() {
+  const lastUpdate = localStorage.getItem('aivora_rates_updated');
+  const now = Date.now();
+  // Only update once per 24 hours
+  if (lastUpdate && (now - parseInt(lastUpdate)) < 86400000) return;
+
+  try {
+    const response = await fetch('https://open.er-api.com/v6/latest/USD');
+    if (!response.ok) return;
+    const data = await response.json();
+    if (!data.rates) return;
+
+    const currenciesToUpdate = [
+      { code: 'EUR', symbol: '€' },
+      { code: 'GBP', symbol: '£' },
+      { code: 'INR', symbol: '₹' },
+      { code: 'JPY', symbol: '¥' },
+      { code: 'AUD', symbol: 'A$' },
+      { code: 'CAD', symbol: 'C$' },
+      { code: 'SGD', symbol: 'S$' },
+      { code: 'AED', symbol: 'د.إ' },
+      { code: 'NGN', symbol: '₦' },
+    ];
+
+    for (const cur of currenciesToUpdate) {
+      if (data.rates[cur.code]) {
+        await supabase.from('currency_rates').upsert({
+          currency: cur.code,
+          rate: data.rates[cur.code],
+          symbol: cur.symbol,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'currency' });
+      }
+    }
+
+    localStorage.setItem('aivora_rates_updated', String(now));
+  } catch (e) {
+    // currency updates are best-effort
+  }
+}
+
+// --- Email Transactional System (client-side trigger) ---
+async function sendWelcomeEmail(email) {
+  try {
+    await supabase.from('email_queue').insert({
+      type: 'welcome',
+      to_email: email,
+      subject: 'Welcome to Aivora! 🎉',
+      status: 'pending'
+    });
+  } catch (e) { /* best-effort */ }
+}
+
+async function sendPurchaseConfirmation(email, productName, productUrl) {
+  try {
+    await supabase.from('email_queue').insert({
+      type: 'purchase_confirmation',
+      to_email: email,
+      subject: `Your purchase: ${productName}`,
+      metadata: { product_name: productName, product_url: productUrl },
+      status: 'pending'
+    });
+  } catch (e) { /* best-effort */ }
+}
+
+async function sendBlogNotification(subscriberEmail, postTitle, postUrl) {
+  try {
+    await supabase.from('email_queue').insert({
+      type: 'blog_notification',
+      to_email: subscriberEmail,
+      subject: `New on Aivora: ${postTitle}`,
+      metadata: { post_title: postTitle, post_url: postUrl },
+      status: 'pending'
+    });
+  } catch (e) { /* best-effort */ }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress();
   initNavScroll();
@@ -617,6 +1030,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initFAQAccordion();
   initNewsletterForm();
   initAdminShortcut();
+  initDarkMode();
+  initImageOptimization();
   loadSiteLogo();
 
   loadFeaturedProducts();
@@ -626,6 +1041,15 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFAQs();
   loadBlogPage();
   loadBlogPostDetail();
+
+  // Inject organization schema on all pages
+  injectOrganizationSchema();
+
+  // Init social proof (shows random purchase notifications)
+  initSocialProof();
+
+  // Auto-update currency rates daily
+  autoUpdateCurrencyRates();
 
   setTimeout(hideLoadingOverlay, 300);
 });

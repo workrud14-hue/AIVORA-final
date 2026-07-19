@@ -3,5 +3,15 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "trailingSlash": false,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/cron/update-rates",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/send-email",
+      "schedule": "* * * * *"
+    }
+  ]
 }

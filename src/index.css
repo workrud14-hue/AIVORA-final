@@ -42,9 +42,10 @@
 
 body {
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .gradient-text {
@@ -377,4 +378,448 @@ body {
   .blob {
     opacity: 0.08;
   }
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #64748b;
+}
+
+.dark-mode-toggle:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background: #f0f9ff;
+}
+
+/* Social proof toast */
+.social-proof-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 50;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 360px;
+  transform: translateY(120%);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-proof-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Review stars */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star-rating .star {
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.star-rating .star.filled {
+  color: #f59e0b;
+}
+
+.star-rating .star:hover {
+  color: #f59e0b;
+}
+
+/* Image blur placeholder */
+.img-blur-load {
+  filter: blur(20px);
+  transform: scale(1.1);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.img-blur-load.loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
+/* ==================== DARK MODE ==================== */
+/* Override Tailwind @theme CSS variables at html.dark level.
+   This is the ONLY reliable way to make Tailwind utility classes
+   like bg-bg, text-text, bg-white respond to dark mode. */
+
+html.dark {
+  --color-bg: #0f172a !important;
+  --color-text: #f1f5f9 !important;
+  --color-text-muted: #94a3b8 !important;
+  --color-primary: #3b82f6 !important;
+  --color-primary-dark: #2563eb !important;
+  --color-primary-light: #60a5fa !important;
+  --color-secondary: #14b8a6 !important;
+  --color-secondary-dark: #0d9488 !important;
+  --color-accent: #fbbf24 !important;
+  --color-accent-dark: #f59e0b !important;
+  color-scheme: dark;
+}
+
+/* Also set hardcoded values on body as fallback */
+html.dark body {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .card-premium {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.dark .card-premium:hover {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .product-card {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.dark .product-card:hover {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .blog-card {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.dark .blog-card:hover {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border-color: #475569 !important;
+}
+
+html.dark nav.fixed {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-color: #334155 !important;
+}
+
+html.dark .btn-secondary {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #475569 !important;
+}
+
+html.dark .btn-secondary:hover {
+  border-color: #3b82f6 !important;
+  color: #60a5fa !important;
+}
+
+html.dark .gradient-bg-soft {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(20, 184, 166, 0.15) 100%) !important;
+}
+
+html.dark footer {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .prose-content h2,
+html.dark .prose-content h3 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .prose-content p,
+html.dark .prose-content li {
+  color: #94a3b8 !important;
+}
+
+html.dark .faq-item {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.dark #loading-overlay {
+  background: #0f172a !important;
+}
+
+html.dark .blob {
+  opacity: 0.08 !important;
+}
+
+html.dark img {
+  filter: brightness(0.9) !important;
+}
+
+html.dark input[type="email"],
+html.dark input[type="text"],
+html.dark input[type="number"],
+html.dark textarea,
+html.dark select {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark table {
+  border-color: #475569 !important;
+}
+
+html.dark th {
+  background: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark td {
+  border-color: #334155 !important;
+}
+
+html.dark .dark-mode-toggle {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+  color: #fbbf24 !important;
+}
+
+html.dark .dark-mode-toggle:hover {
+  border-color: #fbbf24 !important;
+  background: #334155 !important;
+}
+
+html.dark .social-proof-toast {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark a {
+  color: #60a5fa !important;
+}
+
+html.dark .star-rating .star {
+  color: #475569 !important;
+}
+
+html.dark .star-rating .star.filled {
+  color: #fbbf24 !important;
+}
+
+html.dark .border-b {
+  border-color: #334155 !important;
+}
+
+/* ============================================
+   ADMIN DASHBOARD DARK MODE OVERRIDES
+   Targets hardcoded Tailwind utility classes
+   that CSS variable overrides can't reach.
+   ============================================ */
+
+/* --- Sidebar --- */
+html.dark aside {
+  background-color: #0f172a !important;
+  border-right-color: #1e293b !important;
+}
+html.dark aside > div,
+html.dark aside > nav,
+html.dark aside > nav > button {
+  background-color: transparent !important;
+}
+html.dark aside nav > button {
+  color: #94a3b8 !important;
+}
+html.dark aside nav > button:hover {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+html.dark aside nav > button.bg-primary\/10,
+html.dark aside nav > button.text-primary {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  color: #3b82f6 !important;
+}
+html.dark aside .border-t {
+  border-color: #1e293b !important;
+}
+html.dark aside .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+}
+html.dark aside .border-emerald-200 {
+  border-color: rgba(16, 185, 129, 0.2) !important;
+}
+html.dark aside .text-emerald-600 {
+  color: #34d399 !important;
+}
+html.dark aside .hover\:bg-rose-50:hover {
+  background-color: rgba(244, 63, 94, 0.1) !important;
+}
+html.dark aside .hover\:text-rose-600:hover {
+  color: #fb7185 !important;
+}
+
+/* --- Header / Top Bar --- */
+html.dark header {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+  border-bottom-color: #1e293b !important;
+}
+html.dark header input[type="text"] {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+html.dark header input[type="text"]::placeholder {
+  color: #64748b !important;
+}
+
+/* --- Main Content Area --- */
+html.dark main {
+  background-color: #0f172a !important;
+}
+
+/* --- Cards (card-premium) --- */
+html.dark .card-premium {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+}
+html.dark .card-premium:hover {
+  border-color: #475569 !important;
+}
+
+/* --- Tables --- */
+html.dark table thead tr {
+  background-color: #1e293b !important;
+}
+html.dark table tbody tr {
+  background-color: #0f172a !important;
+}
+html.dark table tbody tr:hover {
+  background-color: #1e293b !important;
+}
+html.dark table th,
+html.dark table td {
+  border-color: #334155 !important;
+}
+html.dark table thead tr th {
+  color: #94a3b8 !important;
+}
+
+/* --- Input fields, selects, textareas --- */
+html.dark input[type="text"],
+html.dark input[type="email"],
+html.dark input[type="password"],
+html.dark input[type="number"],
+html.dark input[type="url"],
+html.dark input[type="file"],
+html.dark select,
+html.dark textarea {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.2) !important;
+}
+
+/* --- Modals / Drawers --- */
+html.dark #editor-modal > div,
+html.dark #faq-editor-modal > div,
+html.dark #delete-confirm-modal > div,
+html.dark #message-detail-modal > div {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+html.dark #editor-modal .border-b,
+html.dark #faq-editor-modal .border-b,
+html.dark #message-detail-modal .border-t {
+  border-color: #334155 !important;
+}
+
+/* --- Auth overlay --- */
+html.dark #auth-overlay {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+}
+html.dark #auth-overlay > div {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* --- Generic text classes in admin --- */
+html.dark .text-text-muted,
+html.dark .text-slate-500,
+html.dark .text-slate-600 {
+  color: #94a3b8 !important;
+}
+html.dark .text-slate-400 {
+  color: #64748b !important;
+}
+
+/* --- Buttons with bg-slate --- */
+html.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+html.dark .hover\:bg-slate-200:hover {
+  background-color: #334155 !important;
+}
+
+/* --- Tables divide-y --- */
+html.dark .divide-y > * + * {
+  border-color: #334155 !important;
+}
+
+/* --- Dark mode toggle button in admin --- */
+html.dark #dark-mode-toggle {
+  background-color: #334155 !important;
+  border-color: #475569 !important;
+}
+html.dark #dark-mode-toggle:hover {
+  background-color: #475569 !important;
+}
+
+/* --- Dashboard stat badges --- */
+html.dark .bg-primary\/10 {
+  background-color: rgba(59,130,246,0.15) !important;
+}
+html.dark .bg-secondary\/10 {
+  background-color: rgba(139,92,246,0.15) !important;
+}
+html.dark .bg-accent\/10 {
+  background-color: rgba(245,158,11,0.15) !important;
+}
+html.dark .bg-success\/10 {
+  background-color: rgba(16,185,129,0.15) !important;
+}
+
+/* --- Alert toast --- */
+html.dark #alert-toast {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
 }

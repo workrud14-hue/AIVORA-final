@@ -4,8 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aivora - Admin Dashboard</title>
-    <link rel="icon" type="image/jpeg" href="./assets/images/logo.jpg" />
+    <link rel="icon" type="image/svg+xml" href="./assets/images/logo.svg" />
     <link rel="stylesheet" href="/src/index.css" />
+  
+    <style id="admin-dark-mode-styles">
+      /* Admin Dashboard Dark Mode - Self-contained */
+      html.dark body, html.dark .bg-bg { background-color: #0f172a !important; color: #f1f5f9 !important; }
+
+      /* Sidebar */
+      html.dark aside { background-color: #0f172a !important; border-right-color: #1e293b !important; }
+      html.dark aside > div { background-color: transparent !important; }
+      html.dark aside nav { background-color: transparent !important; }
+      html.dark aside nav > button { color: #94a3b8 !important; background-color: transparent !important; }
+      html.dark aside nav > button:hover { background-color: #1e293b !important; color: #f1f5f9 !important; }
+      html.dark aside nav > button.text-primary { background-color: rgba(59,130,246,0.15) !important; color: #3b82f6 !important; }
+      html.dark aside .border-t { border-color: #1e293b !important; }
+      html.dark aside .bg-emerald-50 { background-color: rgba(16,185,129,0.1) !important; }
+      html.dark aside .border-emerald-200 { border-color: rgba(16,185,129,0.2) !important; }
+      html.dark aside .text-emerald-600 { color: #34d399 !important; }
+      html.dark aside a:hover, html.dark aside button:hover { color: #f1f5f9 !important; }
+      html.dark aside .hover\:bg-rose-50:hover { background-color: rgba(244,63,94,0.1) !important; }
+      html.dark aside .hover\:text-rose-600:hover { color: #fb7185 !important; }
+
+      /* Header / Top Bar */
+      html.dark header { background-color: rgba(15,23,42,0.9) !important; border-bottom-color: #1e293b !important; }
+      html.dark header input[type="text"] { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+      html.dark header input[type="text"]::placeholder { color: #64748b !important; }
+
+      /* Main Content */
+      html.dark main { background-color: transparent !important; }
+
+      /* Cards */
+      html.dark .card-premium { background-color: #1e293b !important; border-color: #334155 !important; }
+      html.dark .card-premium:hover { border-color: #475569 !important; }
+
+      /* Tables */
+      html.dark table { color: #e2e8f0 !important; }
+      html.dark table thead tr { background-color: #1e293b !important; }
+      html.dark table thead tr th { color: #94a3b8 !important; border-color: #334155 !important; }
+      html.dark table tbody tr { background-color: #0f172a !important; }
+      html.dark table tbody tr:hover { background-color: #1e293b !important; }
+      html.dark table tbody td { border-color: #334155 !important; color: #e2e8f0 !important; }
+      html.dark .divide-y > * + * { border-color: #334155 !important; }
+
+      /* Inputs, selects, textareas */
+      html.dark input[type="text"], html.dark input[type="email"], html.dark input[type="password"],
+      html.dark input[type="number"], html.dark input[type="url"], html.dark input[type="file"],
+      html.dark select, html.dark textarea { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+      html.dark input::placeholder, html.dark textarea::placeholder { color: #64748b !important; }
+      html.dark input:focus, html.dark select:focus, html.dark textarea:focus { border-color: #3b82f6 !important; }
+
+      /* Modals / Drawers */
+      html.dark #editor-drawer { background-color: #1e293b !important; border-color: #334155 !important; }
+      html.dark #editor-modal { background-color: rgba(0,0,0,0.5) !important; }
+      html.dark #faq-editor-modal > div { background-color: #1e293b !important; }
+      html.dark #delete-confirm-modal > div { background-color: #1e293b !important; }
+      html.dark #message-detail-modal > div { background-color: #1e293b !important; }
+
+      /* Auth overlay */
+      html.dark #auth-overlay { background-color: rgba(15,23,42,0.95) !important; }
+      html.dark #auth-overlay > div { background-color: #1e293b !important; border-color: #334155 !important; }
+
+      /* Text utilities */
+      html.dark .text-text-muted, html.dark .text-slate-500, html.dark .text-slate-600 { color: #94a3b8 !important; }
+      html.dark .text-slate-400 { color: #64748b !important; }
+
+      /* Buttons */
+      html.dark .bg-slate-100 { background-color: #1e293b !important; }
+      html.dark .hover\:bg-slate-200:hover { background-color: #334155 !important; }
+
+      /* Dashboard stat badges */
+      html.dark [class*="bg-primary/10"] { background-color: rgba(59,130,246,0.15) !important; }
+      html.dark [class*="bg-secondary/10"] { background-color: rgba(139,92,246,0.15) !important; }
+      html.dark [class*="bg-accent/10"] { background-color: rgba(245,158,11,0.15) !important; }
+      html.dark [class*="bg-success/10"] { background-color: rgba(16,185,129,0.15) !important; }
+
+      /* Alert toast */
+      html.dark #alert-toast { background-color: #1e293b !important; border-color: #334155 !important; }
+    </style>
   </head>
   <body class="bg-bg text-text font-sans selection:bg-primary/20 antialiased min-h-screen">
 
@@ -86,6 +162,10 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
             Testimonials
           </button>
+          <button data-tab="reviews" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-text-muted hover:bg-slate-100 hover:text-text transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            Reviews
+          </button>
           <button data-tab="blog" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-text-muted hover:bg-slate-100 hover:text-text transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
             Blog
@@ -130,6 +210,10 @@
               <input type="text" id="global-search" placeholder="Search..." class="w-48 md:w-64 h-10 pl-10 pr-4 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition" />
               <svg class="absolute left-3 top-2.5 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </div>
+            <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode" style="width:40px;height:40px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sun-icon"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="moon-icon hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
             <button id="quick-add-btn" class="h-10 px-4 rounded-xl btn-primary text-xs font-bold uppercase tracking-wider flex items-center gap-2 cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M12 4v16m8-8H4"/></svg>
               <span class="hidden sm:inline">Quick Add</span>
@@ -415,6 +499,39 @@
                 </thead>
                 <tbody id="admin-testimonials-list" class="divide-y divide-slate-100 text-sm">
                   <tr><td colspan="6" class="p-8 text-center text-text-muted">Loading testimonials...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- REVIEWS TAB -->
+          <section id="tab-reviews" class="tab-content hidden space-y-5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <input type="text" id="review-search" placeholder="Search reviews..." class="w-64 h-10 px-4 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" />
+                <select id="review-filter-status" class="h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition">
+                  <option value="">All Status</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-premium rounded-2xl overflow-hidden">
+              <table class="w-full text-left">
+                <thead>
+                  <tr class="border-b border-slate-100 bg-slate-50 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                    <th class="p-4">Product</th>
+                    <th class="p-4">Reviewer</th>
+                    <th class="p-4">Rating</th>
+                    <th class="p-4">Review</th>
+                    <th class="p-4">Status</th>
+                    <th class="p-4">Date</th>
+                    <th class="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-reviews-list" class="divide-y divide-slate-100 text-sm">
+                  <tr><td colspan="7" class="p-8 text-center text-text-muted">Loading reviews...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -731,7 +848,38 @@
 
       // --- INIT ---
       document.addEventListener('DOMContentLoaded', async () => {
-        if (window.lucide) window.lucide.createIcons();
+        // --- Dark Mode for Admin ---
+(function initAdminDarkMode() {
+  const toggle = document.getElementById('dark-mode-toggle');
+  if (!toggle) return;
+  const sunIcon = toggle.querySelector('.sun-icon');
+  const moonIcon = toggle.querySelector('.moon-icon');
+  function applyTheme(dark) {
+    if (dark) {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+      if (sunIcon) sunIcon.classList.add('hidden');
+      if (moonIcon) moonIcon.classList.remove('hidden');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+      if (sunIcon) sunIcon.classList.remove('hidden');
+      if (moonIcon) moonIcon.classList.add('hidden');
+    }
+  }
+  const saved = localStorage.getItem('aivora_dark_mode');
+  if (saved !== null) { applyTheme(saved === 'true'); }
+  else { applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches); }
+  toggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    applyTheme(!isDark);
+    localStorage.setItem('aivora_dark_mode', String(!isDark));
+  });
+})();
+
+// Dark mode admin styles handled by src/index.css (html.dark selectors)
+
+if (window.lucide) window.lucide.createIcons();
         await hydrateAdminLogos();
 
         const session = sessionStorage.getItem(SESSION_KEY);
@@ -2226,7 +2374,7 @@
         const btn = document.getElementById('confirm-delete-btn');
         btn.disabled = true; btn.textContent = 'Deleting...';
         try {
-          const tableMap = { product: 'products', order: 'orders', customer: 'customers', coupon: 'coupons', testimonial: 'testimonials', blog: 'blog_posts', faq: 'faqs', message: 'contact_messages', subscriber: 'newsletter_subscribers' };
+          const tableMap = { product: 'products', order: 'orders', customer: 'customers', coupon: 'coupons', testimonial: 'testimonials', review: 'product_reviews', blog: 'blog_posts', faq: 'faqs', message: 'contact_messages', subscriber: 'newsletter_subscribers' };
           const table = tableMap[deleteTargetType] || 'products';
           const { error } = await supabase.from(table).delete().eq('id', deleteTargetId);
           if (error) throw error;
@@ -2238,6 +2386,7 @@
           else if (deleteTargetType === 'customer') await loadCustomers();
           else if (deleteTargetType === 'coupon') await loadCoupons();
           else if (deleteTargetType === 'testimonial') await loadTestimonials();
+          else if (deleteTargetType === 'review') await loadReviews();
           else if (deleteTargetType === 'blog') await loadBlogPosts();
           else if (deleteTargetType === 'faq') await loadFaqs();
           else if (deleteTargetType === 'message') await loadContactMessages();
@@ -2248,6 +2397,82 @@
         } finally {
           btn.disabled = false; btn.textContent = 'Delete';
         }
+      }
+
+      // --- REVIEWS ---
+      let allReviews = [];
+
+      async function loadReviews() {
+        const { data, error } = await supabase.from('product_reviews').select('*').order('created_at', { ascending: false });
+        if (error) { showToast('Load Error', error.message, 'error'); return; }
+        allReviews = data || [];
+        renderReviewsTable(allReviews);
+      }
+
+      function renderReviewsTable(reviews) {
+        const tbody = document.getElementById('admin-reviews-list');
+        if (!tbody) return;
+        const search = (document.getElementById('review-search')?.value || '').toLowerCase();
+        const statusFilter = document.getElementById('review-filter-status')?.value || '';
+        let filtered = reviews;
+        if (search) {
+          filtered = filtered.filter(r =>
+            (r.reviewer_name || '').toLowerCase().includes(search) ||
+            (r.comment || '').toLowerCase().includes(search) ||
+            (r.product_id || '').toLowerCase().includes(search)
+          );
+        }
+        if (statusFilter) {
+          filtered = filtered.filter(r => (r.status || 'approved') === statusFilter);
+        }
+        tbody.innerHTML = '';
+        if (!filtered.length) {
+          tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-text-muted">No reviews found.</td></tr>';
+          return;
+        }
+        filtered.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50 transition-colors';
+          const date = r.created_at ? new Date(r.created_at).toLocaleDateString() : '—';
+          const stars = renderAdminStars(r.rating || 5);
+          const statusClass = r.status === 'rejected' ? 'bg-error/10 text-error' : r.status === 'pending' ? 'bg-amber-100 text-amber-600' : 'bg-success/10 text-success';
+          const statusText = r.status || 'approved';
+          tr.innerHTML = `
+            <td class="p-4 font-semibold max-w-[120px] truncate" title="${r.product_id || ''}">${r.product_id || '—'}</td>
+            <td class="p-4">${r.reviewer_name || 'Anonymous'}</td>
+            <td class="p-4">${stars}</td>
+            <td class="p-4 text-sm text-text-muted max-w-xs truncate" title="${(r.comment || '').replace(/"/g, '&quot;')}">${r.comment || '—'}</td>
+            <td class="p-4"><span class="px-2 py-1 rounded-lg text-xs font-semibold uppercase ${statusClass}">${statusText}</span></td>
+            <td class="p-4 text-xs text-text-muted">${date}</td>
+            <td class="p-4 text-right"><div class="inline-flex items-center gap-2">${statusText !== 'approved' ? `<button data-approve-review="${r.id}" class="px-3 py-1.5 rounded-lg bg-success/10 hover:bg-success/20 text-success text-xs font-semibold transition cursor-pointer">Approve</button>` : ''}${statusText !== 'rejected' ? `<button data-reject-review="${r.id}" class="px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-600 text-xs font-semibold transition cursor-pointer">Reject</button>` : ''}<button data-delete-review="${r.id}" class="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error text-xs font-semibold transition cursor-pointer">Delete</button></div></td>
+          `;
+          tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('[data-approve-review]').forEach(btn => btn.addEventListener('click', () => moderateReview(btn.getAttribute('data-approve-review'), 'approved')));
+        tbody.querySelectorAll('[data-reject-review]').forEach(btn => btn.addEventListener('click', () => moderateReview(btn.getAttribute('data-reject-review'), 'rejected')));
+        tbody.querySelectorAll('[data-delete-review]').forEach(btn => btn.addEventListener('click', () => {
+          deleteTargetId = btn.getAttribute('data-delete-review');
+          deleteTargetType = 'review';
+          document.getElementById('delete-confirm-message').textContent = 'Delete this review permanently?';
+          openDeleteModal();
+        }));
+      }
+
+      function renderAdminStars(rating) {
+        let html = '<span class="flex items-center gap-0.5">';
+        for (let i = 1; i <= 5; i++) {
+          if (i <= rating) html += '<svg class="w-3.5 h-3.5 text-amber-400 fill-amber-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
+          else html += '<svg class="w-3.5 h-3.5 text-slate-200" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
+        }
+        html += '</span>';
+        return html;
+      }
+
+      async function moderateReview(reviewId, newStatus) {
+        const { error } = await supabase.from('product_reviews').update({ status: newStatus }).eq('id', reviewId);
+        if (error) { showToast('Error', error.message, 'error'); return; }
+        showToast('Updated', 'Review ' + newStatus + '.', 'success');
+        await loadReviews();
       }
 
       // --- TOAST ---
