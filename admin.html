@@ -73,6 +73,11 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             Customers
           </button>
+          <button data-tab="messages" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-text-muted hover:bg-slate-100 hover:text-text transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span class="flex-1 text-left">Messages</span>
+            <span id="messages-unread-badge" class="hidden px-1.5 py-0.5 rounded-full bg-error text-white text-[9px] font-bold">0</span>
+          </button>
           <button data-tab="coupons" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-text-muted hover:bg-slate-100 hover:text-text transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
             Coupons
@@ -164,6 +169,14 @@
                 </div>
                 <div class="text-3xl font-black" id="dash-customer-count">0</div>
                 <div class="text-xs text-text-muted">Registered customers</div>
+              </div>
+              <div class="card-premium p-6 flex flex-col justify-between h-36">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-text-muted uppercase tracking-wider">Unread Messages</span>
+                  <div class="p-2 rounded-lg bg-primary/10 text-primary"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                </div>
+                <div class="text-3xl font-black" id="dash-unread-messages">0</div>
+                <div class="text-xs text-text-muted">New contact form submissions</div>
               </div>
             </div>
 
@@ -311,6 +324,33 @@
             </div>
           </section>
 
+          <!-- MESSAGES TAB -->
+          <section id="tab-messages" class="tab-content hidden space-y-5">
+            <div class="flex items-center justify-between">
+              <input type="text" id="message-search" placeholder="Search messages..." class="w-64 h-10 px-4 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" />
+              <div class="flex items-center gap-2">
+                <button id="mark-all-read-btn" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold uppercase tracking-wider transition cursor-pointer">Mark All Read</button>
+              </div>
+            </div>
+            <div class="card-premium rounded-2xl overflow-hidden">
+              <table class="w-full text-left">
+                <thead>
+                  <tr class="border-b border-slate-100 bg-slate-50 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Email</th>
+                    <th class="p-4">Subject</th>
+                    <th class="p-4">Received</th>
+                    <th class="p-4">Status</th>
+                    <th class="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-messages-list" class="divide-y divide-slate-100 text-sm">
+                  <tr><td colspan="6" class="p-8 text-center text-text-muted">Loading messages...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
           <!-- COUPONS TAB -->
           <section id="tab-coupons" class="tab-content hidden space-y-5">
             <div class="flex items-center justify-between">
@@ -384,13 +424,14 @@
                     <th class="p-4">Title</th>
                     <th class="p-4">Author</th>
                     <th class="p-4">Category</th>
+                    <th class="p-4">Views</th>
                     <th class="p-4">Status</th>
                     <th class="p-4">Published</th>
                     <th class="p-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="admin-blog-list" class="divide-y divide-slate-100 text-sm">
-                  <tr><td colspan="6" class="p-8 text-center text-text-muted">Loading blog posts...</td></tr>
+                  <tr><td colspan="7" class="p-8 text-center text-text-muted">Loading blog posts...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -465,10 +506,47 @@
                 <h3 class="font-bold mb-2">About This Admin</h3>
                 <ul class="text-xs text-text-muted space-y-1.5">
                   <li>Backend: Supabase (PostgreSQL)</li>
-                  <li>Storage: Supabase Storage (site-assets & product-covers)</li>
+                  <li>Storage: Supabase Storage (site-assets, product-covers & blog-covers)</li>
                   <li>Auth: Password-protected via secret shortcut</li>
                   <li>Changes go live immediately — no deploys needed</li>
                 </ul>
+              </div>
+            </div>
+
+            <div class="card-premium p-8 rounded-2xl space-y-5">
+              <div>
+                <h3 class="font-bold mb-1">Currency Conversion Rates</h3>
+                <p class="text-xs text-text-muted">Base prices are stored in USD. These rates convert prices to the visitor's regional currency at render time. Update them as exchange rates change.</p>
+              </div>
+              <div class="rounded-xl border border-slate-200 overflow-hidden">
+                <table class="w-full text-left">
+                  <thead>
+                    <tr class="border-b border-slate-100 bg-slate-50 text-xs font-semibold text-text-muted uppercase tracking-wider">
+                      <th class="p-3">Currency</th>
+                      <th class="p-3">Symbol</th>
+                      <th class="p-3">Rate (vs USD)</th>
+                      <th class="p-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-currency-list" class="divide-y divide-slate-100 text-sm">
+                    <tr><td colspan="4" class="p-6 text-center text-text-muted">Loading rates...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="flex flex-wrap items-end gap-3 pt-3 border-t border-slate-100">
+                <div>
+                  <label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Currency Code</label>
+                  <input type="text" id="new-currency-code" placeholder="EUR" class="w-32 h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition uppercase" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Symbol</label>
+                  <input type="text" id="new-currency-symbol" placeholder="€" class="w-20 h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Rate</label>
+                  <input type="number" step="0.0001" id="new-currency-rate" placeholder="0.92" class="w-28 h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" />
+                </div>
+                <button id="add-currency-btn" class="h-10 px-4 rounded-xl btn-primary text-xs font-bold uppercase tracking-wider transition cursor-pointer">Add Currency</button>
               </div>
             </div>
           </section>
@@ -544,6 +622,28 @@
       </div>
     </div>
 
+    <!-- Message Detail Modal -->
+    <div id="message-detail-modal" class="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex items-center justify-center p-6 transition-all duration-300 opacity-0 pointer-events-none">
+      <div class="max-w-lg w-full bg-white rounded-2xl p-6 space-y-4 shadow-2xl transition-transform duration-300 scale-95 max-h-[80vh] overflow-y-auto">
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 id="message-detail-subject" class="text-lg font-bold">—</h3>
+            <p class="text-xs text-text-muted mt-1">Received: <span id="message-detail-received">—</span></p>
+          </div>
+          <button id="close-message-detail-btn" class="p-2 rounded-lg hover:bg-slate-100 transition cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="space-y-1 text-sm">
+          <p><span class="font-semibold">From:</span> <span id="message-detail-name">—</span></p>
+          <p><span class="font-semibold">Email:</span> <a id="message-detail-email" href="#" class="text-primary hover:underline">—</a></p>
+        </div>
+        <div class="border-t border-slate-100 pt-4">
+          <p id="message-detail-body" class="text-sm text-text-muted leading-relaxed whitespace-pre-wrap">—</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast -->
     <div id="alert-toast" class="fixed bottom-6 right-6 z-50 p-4 rounded-xl bg-white border border-slate-200 shadow-2xl transition-all duration-300 translate-y-16 opacity-0 pointer-events-none flex items-center gap-3 max-w-sm">
       <div id="toast-icon" class="p-2 rounded-lg"></div>
@@ -573,6 +673,7 @@
       let allTestimonials = [];
       let allBlogPosts = [];
       let allFaqs = [];
+      let allContactMessages = [];
       let currentEditorType = '';
 
       const PAGE_META = {
@@ -580,6 +681,7 @@
         products: { title: 'Products', subtitle: 'Manage your digital catalog' },
         orders: { title: 'Orders', subtitle: 'Track and manage customer orders' },
         customers: { title: 'Customers', subtitle: 'View and manage customer records' },
+        messages: { title: 'Messages', subtitle: 'Contact form submissions from your storefront' },
         coupons: { title: 'Coupons', subtitle: 'Create and manage discount codes' },
         testimonials: { title: 'Testimonials', subtitle: 'Manage customer reviews and testimonials' },
         blog: { title: 'Blog', subtitle: 'Create and publish content' },
@@ -658,6 +760,10 @@
         document.getElementById('coupon-search').addEventListener('input', () => renderCouponTable(allCoupons));
         document.getElementById('testimonial-search').addEventListener('input', () => renderTestimonialTable(allTestimonials));
         document.getElementById('blog-search').addEventListener('input', () => renderBlogTable(allBlogPosts));
+        document.getElementById('message-search').addEventListener('input', () => renderMessagesTable(allContactMessages));
+        document.getElementById('mark-all-read-btn').addEventListener('click', markAllMessagesRead);
+        document.getElementById('close-message-detail-btn').addEventListener('click', closeMessageDetail);
+        document.getElementById('add-currency-btn').addEventListener('click', addCurrencyRate);
 
         // Add buttons for new modules
         document.getElementById('add-order-btn').addEventListener('click', () => openOrderEditor(null));
@@ -738,6 +844,8 @@
           loadBlogPosts(),
           loadFaqs(),
           loadSettingsLogo(),
+          loadContactMessages(),
+          loadCurrencyRates(),
         ]);
         updateDashboardStats();
         renderDashboardWidgets();
@@ -747,6 +855,8 @@
         document.getElementById('dash-product-count').textContent = allProducts.length;
         document.getElementById('dash-orders-count').textContent = allOrders.length;
         document.getElementById('dash-customer-count').textContent = allCustomers.length;
+        const unread = allContactMessages.filter(m => !m.is_read).length;
+        document.getElementById('dash-unread-messages').textContent = unread;
         const revenue = allOrders
           .filter(o => o.status === 'completed')
           .reduce((sum, o) => sum + parseFloat(o.amount || 0), 0);
@@ -1525,7 +1635,7 @@
 
         tbody.innerHTML = '';
         if (!filtered.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-text-muted">No blog posts found.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-text-muted">No blog posts found.</td></tr>';
           return;
         }
         filtered.forEach(p => {
@@ -1535,6 +1645,7 @@
             <td class="p-4"><p class="font-semibold">${p.title}</p><p class="text-xs text-text-muted font-mono">/${p.slug}</p></td>
             <td class="p-4 text-sm text-text-muted">${p.author || '—'}</td>
             <td class="p-4"><span class="px-2 py-1 rounded-lg bg-primary/10 text-primary text-xs font-semibold">${p.category || 'AI'}</span></td>
+            <td class="p-4"><span class="px-2 py-1 rounded-lg bg-accent/10 text-accent text-xs font-semibold">${p.views || 0}</span></td>
             <td class="p-4"><span class="px-2 py-1 rounded-lg text-xs font-semibold uppercase ${p.published ? 'bg-success/10 text-success' : 'bg-slate-100 text-text-muted'}">${p.published ? 'Published' : 'Draft'}</span></td>
             <td class="p-4 text-xs text-text-muted">${p.published_at || '—'}</td>
             <td class="p-4 text-right"><div class="inline-flex items-center gap-2"><button data-edit-blog="${p.id}" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold transition cursor-pointer">Edit</button><button data-delete-blog="${p.id}" class="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error text-xs font-semibold transition cursor-pointer">Delete</button></div></td>
@@ -1564,12 +1675,57 @@
             <div><label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Author</label><input type="text" id="edit-blog-author" class="w-full h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" value="${post ? post.author : 'Voria Johnson'}" /></div>
             <div><label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Category</label><input type="text" id="edit-blog-category" class="w-full h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" value="${post ? post.category : 'AI'}" /></div>
           </div>
-          <div><label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Cover Image URL</label><input type="text" id="edit-blog-cover" class="w-full h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" value="${post ? post.cover_image : ''}" /></div>
+          <div>
+            <label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Cover Image</label>
+            <div class="flex items-center gap-3">
+              <input type="file" id="edit-blog-cover-file" accept="image/*" class="text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-primary/10 file:text-primary file:font-semibold file:cursor-pointer cursor-pointer" />
+              <span id="blog-cover-upload-status" class="text-primary text-xs font-semibold hidden animate-pulse">Uploading...</span>
+            </div>
+            <input type="text" id="edit-blog-cover" class="mt-2 w-full h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" value="${post ? post.cover_image : ''}" placeholder="Cover image URL" />
+            <img id="blog-cover-preview" src="${post && post.cover_image ? post.cover_image : ''}" alt="Cover preview" class="mt-2 w-full h-32 object-cover rounded-xl border border-slate-200 ${post && post.cover_image ? '' : 'hidden'}" referrerpolicy="no-referrer" />
+          </div>
           <div><label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Tags (comma-separated)</label><input type="text" id="edit-blog-tags" class="w-full h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" value="${post ? (post.tags || []).join(', ') : ''}" /></div>
           <div><label class="block text-[10px] font-semibold uppercase tracking-wider text-text-muted mb-1.5">Published Date</label><input type="date" id="edit-blog-pubdate" class="w-full h-10 px-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" value="${post ? post.published_at || '' : ''}" /></div>
           <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer"><input type="checkbox" id="edit-blog-published" class="rounded accent-primary" ${post ? (post.published ? 'checked' : '') : ''} /><span class="text-[10px] uppercase font-semibold text-text-muted">Published</span></label>
         `;
         showEditor();
+
+        // Blog cover image upload to blog-covers bucket
+        const blogCoverFileInput = form.querySelector('#edit-blog-cover-file');
+        if (blogCoverFileInput) {
+          blogCoverFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const status = form.querySelector('#blog-cover-upload-status');
+            status.classList.remove('hidden');
+            try {
+              const ext = file.name.split('.').pop();
+              const filename = `blog_${Date.now()}.${ext}`;
+              const { data, error } = await supabase.storage.from('blog-covers').upload(filename, file, { contentType: file.type, upsert: false });
+              if (error) throw error;
+              const { data: urlData } = supabase.storage.from('blog-covers').getPublicUrl(data.path);
+              form.querySelector('#edit-blog-cover').value = urlData.publicUrl;
+              const preview = form.querySelector('#blog-cover-preview');
+              preview.src = urlData.publicUrl;
+              preview.classList.remove('hidden');
+              showToast('Image Uploaded', 'Blog cover uploaded to Supabase.', 'success');
+            } catch (err) {
+              showToast('Upload Failed', err.message, 'error');
+            } finally {
+              status.classList.add('hidden');
+              blogCoverFileInput.value = '';
+            }
+          });
+        }
+        const blogCoverUrlInput = form.querySelector('#edit-blog-cover');
+        if (blogCoverUrlInput) {
+          blogCoverUrlInput.addEventListener('input', () => {
+            const preview = form.querySelector('#blog-cover-preview');
+            const url = blogCoverUrlInput.value.trim();
+            if (url) { preview.src = url; preview.classList.remove('hidden'); }
+            else { preview.classList.add('hidden'); }
+          });
+        }
       }
 
       async function openBlogEditorById(blogId) {
@@ -1651,6 +1807,172 @@
           document.getElementById('delete-confirm-message').textContent = 'Delete this FAQ permanently?';
           openDeleteModal();
         }));
+      }
+
+      // --- CONTACT MESSAGES ---
+      async function loadContactMessages() {
+        const { data, error } = await supabase.from('contact_messages').select('*').order('created_at', { ascending: false });
+        if (error) { showToast('Load Error', error.message, 'error'); return; }
+        allContactMessages = data || [];
+        renderMessagesTable(allContactMessages);
+        updateMessagesBadge();
+      }
+
+      function updateMessagesBadge() {
+        const unread = allContactMessages.filter(m => !m.is_read).length;
+        const badge = document.getElementById('messages-unread-badge');
+        if (badge) {
+          if (unread > 0) {
+            badge.textContent = String(unread);
+            badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
+          }
+        }
+      }
+
+      function renderMessagesTable(messages) {
+        const tbody = document.getElementById('admin-messages-list');
+        const search = document.getElementById('message-search').value.toLowerCase();
+        let filtered = messages;
+        if (search) {
+          filtered = filtered.filter(m =>
+            (m.name || '').toLowerCase().includes(search) ||
+            (m.email || '').toLowerCase().includes(search) ||
+            (m.subject || '').toLowerCase().includes(search) ||
+            (m.message || '').toLowerCase().includes(search)
+          );
+        }
+        tbody.innerHTML = '';
+        if (!filtered.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-text-muted">No messages found.</td></tr>';
+          return;
+        }
+        filtered.forEach(m => {
+          const tr = document.createElement('tr');
+          tr.className = `hover:bg-slate-50 transition-colors ${m.is_read ? '' : 'bg-primary/5'}`;
+          const received = m.created_at ? new Date(m.created_at).toLocaleString() : '—';
+          tr.innerHTML = `
+            <td class="p-4 font-semibold">${m.name || '—'}</td>
+            <td class="p-4 text-sm"><a href="mailto:${m.email}" class="text-primary hover:underline">${m.email || '—'}</a></td>
+            <td class="p-4 text-sm text-text-muted max-w-xs truncate">${m.subject || '—'}</td>
+            <td class="p-4 text-xs text-text-muted">${received}</td>
+            <td class="p-4"><span class="px-2 py-1 rounded-lg text-xs font-semibold uppercase ${m.is_read ? 'bg-slate-100 text-text-muted' : 'bg-primary/10 text-primary'}">${m.is_read ? 'Read' : 'Unread'}</span></td>
+            <td class="p-4 text-right"><div class="inline-flex items-center gap-2"><button data-view-message="${m.id}" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold transition cursor-pointer">View</button>${m.is_read ? '' : `<button data-read-message="${m.id}" class="px-3 py-1.5 rounded-lg bg-success/10 hover:bg-success/20 text-success text-xs font-semibold transition cursor-pointer">Mark Read</button>`}<button data-delete-message="${m.id}" class="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error text-xs font-semibold transition cursor-pointer">Delete</button></div></td>
+          `;
+          tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('[data-view-message]').forEach(btn => btn.addEventListener('click', () => openMessageDetail(btn.getAttribute('data-view-message'))));
+        tbody.querySelectorAll('[data-read-message]').forEach(btn => btn.addEventListener('click', () => markMessageRead(btn.getAttribute('data-read-message'))));
+        tbody.querySelectorAll('[data-delete-message]').forEach(btn => btn.addEventListener('click', () => {
+          deleteTargetId = btn.getAttribute('data-delete-message');
+          deleteTargetType = 'message';
+          document.getElementById('delete-confirm-message').textContent = 'Delete this message permanently?';
+          openDeleteModal();
+        }));
+      }
+
+      function openMessageDetail(messageId) {
+        const m = allContactMessages.find(x => x.id === messageId);
+        if (!m) return;
+        if (!m.is_read) markMessageRead(messageId);
+        const modal = document.getElementById('message-detail-modal');
+        document.getElementById('message-detail-name').textContent = m.name || '—';
+        document.getElementById('message-detail-email').textContent = m.email || '—';
+        document.getElementById('message-detail-email').href = m.email ? `mailto:${m.email}` : '#';
+        document.getElementById('message-detail-subject').textContent = m.subject || '—';
+        document.getElementById('message-detail-body').textContent = m.message || '';
+        document.getElementById('message-detail-received').textContent = m.created_at ? new Date(m.created_at).toLocaleString() : '—';
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      }
+
+      function closeMessageDetail() {
+        document.getElementById('message-detail-modal').classList.add('opacity-0', 'pointer-events-none');
+      }
+
+      async function markMessageRead(messageId) {
+        const { error } = await supabase.from('contact_messages').update({ is_read: true }).eq('id', messageId);
+        if (error) { showToast('Error', error.message, 'error'); return; }
+        allContactMessages = allContactMessages.map(m => m.id === messageId ? { ...m, is_read: true } : m);
+        renderMessagesTable(allContactMessages);
+        updateMessagesBadge();
+      }
+
+      async function markAllMessagesRead() {
+        const unread = allContactMessages.filter(m => !m.is_read);
+        if (!unread.length) return;
+        const { error } = await supabase.from('contact_messages').update({ is_read: true }).in('id', unread.map(m => m.id));
+        if (error) { showToast('Error', error.message, 'error'); return; }
+        allContactMessages = allContactMessages.map(m => ({ ...m, is_read: true }));
+        renderMessagesTable(allContactMessages);
+        updateMessagesBadge();
+        showToast('Done', 'All messages marked as read.', 'success');
+      }
+
+      // --- CURRENCY RATES ---
+      let allCurrencyRates = [];
+
+      async function loadCurrencyRates() {
+        const { data, error } = await supabase.from('currency_rates').select('*').order('currency', { ascending: true });
+        if (error) { showToast('Load Error', error.message, 'error'); return; }
+        allCurrencyRates = data || [];
+        renderCurrencyRatesTable(allCurrencyRates);
+      }
+
+      function renderCurrencyRatesTable(rates) {
+        const tbody = document.getElementById('admin-currency-list');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        if (!rates.length) {
+          tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-text-muted">No currency rates yet.</td></tr>';
+          return;
+        }
+        rates.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50 transition-colors';
+          tr.innerHTML = `
+            <td class="p-3 font-semibold">${r.currency}</td>
+            <td class="p-3 text-sm">${r.symbol || ''}</td>
+            <td class="p-3 text-sm font-mono"><input type="number" step="0.0001" value="${r.rate}" data-currency-rate="${r.currency}" class="w-28 h-9 px-2 rounded-lg bg-white border border-slate-200 text-sm focus:outline-none focus:border-primary transition" /></td>
+            <td class="p-3 text-right"><div class="inline-flex items-center gap-2"><button data-save-currency="${r.currency}" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold transition cursor-pointer">Save</button><button data-delete-currency="${r.currency}" class="px-3 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 text-error text-xs font-semibold transition cursor-pointer">Delete</button></div></td>
+          `;
+          tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('[data-save-currency]').forEach(btn => btn.addEventListener('click', () => saveCurrencyRate(btn.getAttribute('data-save-currency'))));
+        tbody.querySelectorAll('[data-delete-currency]').forEach(btn => btn.addEventListener('click', () => deleteCurrencyRate(btn.getAttribute('data-delete-currency'))));
+      }
+
+      async function saveCurrencyRate(currency) {
+        const input = document.querySelector(`[data-currency-rate="${currency}"]`);
+        if (!input) return;
+        const rate = parseFloat(input.value);
+        if (isNaN(rate) || rate <= 0) { showToast('Invalid Rate', 'Enter a positive number.', 'error'); return; }
+        const { error } = await supabase.from('currency_rates').update({ rate, updated_at: new Date().toISOString() }).eq('currency', currency);
+        if (error) { showToast('Error', error.message, 'error'); return; }
+        showToast('Saved', `${currency} rate updated to ${rate}.`, 'success');
+        await loadCurrencyRates();
+      }
+
+      async function deleteCurrencyRate(currency) {
+        if (currency === 'USD') { showToast('Protected', 'USD is the base currency and cannot be deleted.', 'error'); return; }
+        const { error } = await supabase.from('currency_rates').delete().eq('currency', currency);
+        if (error) { showToast('Error', error.message, 'error'); return; }
+        showToast('Deleted', `${currency} removed.`, 'success');
+        await loadCurrencyRates();
+      }
+
+      async function addCurrencyRate() {
+        const code = document.getElementById('new-currency-code').value.trim().toUpperCase();
+        const symbol = document.getElementById('new-currency-symbol').value.trim();
+        const rate = parseFloat(document.getElementById('new-currency-rate').value);
+        if (!code || !symbol || isNaN(rate) || rate <= 0) { showToast('Invalid Input', 'Fill all fields with valid values.', 'error'); return; }
+        const { error } = await supabase.from('currency_rates').insert({ currency: code, symbol, rate });
+        if (error) { showToast('Error', error.message, 'error'); return; }
+        document.getElementById('new-currency-code').value = '';
+        document.getElementById('new-currency-symbol').value = '';
+        document.getElementById('new-currency-rate').value = '';
+        showToast('Added', `${code} currency added.`, 'success');
+        await loadCurrencyRates();
       }
 
       function openFaqEditor(faq) {
@@ -1788,7 +2110,7 @@
         const btn = document.getElementById('confirm-delete-btn');
         btn.disabled = true; btn.textContent = 'Deleting...';
         try {
-          const tableMap = { product: 'products', order: 'orders', customer: 'customers', coupon: 'coupons', testimonial: 'testimonials', blog: 'blog_posts', faq: 'faqs' };
+          const tableMap = { product: 'products', order: 'orders', customer: 'customers', coupon: 'coupons', testimonial: 'testimonials', blog: 'blog_posts', faq: 'faqs', message: 'contact_messages' };
           const table = tableMap[deleteTargetType] || 'products';
           const { error } = await supabase.from(table).delete().eq('id', deleteTargetId);
           if (error) throw error;
@@ -1802,6 +2124,7 @@
           else if (deleteTargetType === 'testimonial') await loadTestimonials();
           else if (deleteTargetType === 'blog') await loadBlogPosts();
           else if (deleteTargetType === 'faq') await loadFaqs();
+          else if (deleteTargetType === 'message') await loadContactMessages();
           updateDashboardStats();
         } catch (err) {
           showToast('Delete Failed', err.message, 'error');

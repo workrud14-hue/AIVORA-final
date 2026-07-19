@@ -110,28 +110,30 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Your Name</label>
-                    <input type="text" required placeholder="John Doe" class="w-full h-12 px-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm" />
+                    <input type="text" id="contact-name" required placeholder="John Doe" class="w-full h-12 px-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm" />
                   </div>
                   <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Your Email</label>
-                    <input type="email" required placeholder="john@example.com" class="w-full h-12 px-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm" />
+                    <input type="email" id="contact-email" required placeholder="john@example.com" class="w-full h-12 px-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm" />
                   </div>
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Subject</label>
-                  <input type="text" required placeholder="How can we help?" class="w-full h-12 px-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm" />
+                  <input type="text" id="contact-subject" required placeholder="How can we help?" class="w-full h-12 px-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm" />
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Message</label>
-                  <textarea required rows="6" placeholder="Tell us more..." class="w-full p-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm resize-none"></textarea>
+                  <textarea id="contact-message" required rows="6" placeholder="Tell us more..." class="w-full p-4 rounded-xl bg-white border border-slate-200 text-text placeholder-slate-400 focus:outline-none focus:border-primary transition-all text-sm resize-none"></textarea>
                 </div>
 
                 <button type="submit" class="w-full h-12 rounded-xl btn-primary text-white font-bold uppercase tracking-wider text-xs transition duration-300 cursor-pointer">
                   Send Message
                 </button>
               </form>
+
+              <div id="contact-error" class="hidden mt-6 p-4 rounded-xl border border-error/20 bg-error/5 text-error text-xs font-medium text-center"></div>
 
               <div id="contact-success" class="hidden mt-6 p-4 rounded-xl border border-success/20 bg-success/5 text-success text-xs font-medium text-center flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -193,26 +195,48 @@
     </button>
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+      const SUPABASE_URL = 'https://wprouphqcihklmobgeac.supabase.co';
+      const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indwcm91cGhxY2loa2xtb2JnZWFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NTY4NTcsImV4cCI6MjA5OTUzMjg1N30.a23Uo9FC4vEbi2H--B7kVKrXexX7Hk8L4kel9xXeLyY';
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
       document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) window.lucide.createIcons();
 
         const form = document.getElementById('contact-form');
         const successBox = document.getElementById('contact-success');
+        const errorBox = document.getElementById('contact-error');
         if (form && successBox) {
-          form.addEventListener('submit', (e) => {
+          form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            errorBox.classList.add('hidden');
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<span class="inline-block animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2"></span> Sending...';
             submitBtn.disabled = true;
 
-            setTimeout(() => {
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const subject = document.getElementById('contact-subject').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+
+            try {
+              const { error } = await supabase.from('contact_messages').insert({ name, email, subject, message });
+              if (error) throw error;
               form.reset();
               submitBtn.disabled = false;
               submitBtn.innerHTML = 'Send Message';
               successBox.classList.remove('hidden');
               successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 1500);
+              setTimeout(() => successBox.classList.add('hidden'), 6000);
+            } catch (err) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = 'Send Message';
+              errorBox.textContent = 'Could not send your message. Please try again or email support@aivora.ai directly.';
+              errorBox.classList.remove('hidden');
+              errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
           });
         }
       });

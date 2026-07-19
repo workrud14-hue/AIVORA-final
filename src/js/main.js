@@ -1,15 +1,83 @@
 import { supabase } from './supabaseClient.js';
 
-function formatPrice(price, salePrice, currency) {
-  const c = currency || 'USD';
-  const symbol = c === 'USD' ? '$' : c + ' ';
-  if (salePrice && parseFloat(salePrice) > 0 && parseFloat(salePrice) < parseFloat(price)) {
-    return `<span class="text-2xl font-black text-error">${symbol}${parseFloat(salePrice).toFixed(2)}</span><span class="text-sm text-slate-400 line-through ml-2">${symbol}${parseFloat(price).toFixed(2)}</span>`;
-  }
-  return `<span class="text-2xl font-black text-text">${symbol}${parseFloat(price).toFixed(2)}</span>`;
+// --- Region-based currency conversion ---
+// Base prices in the products table are USD. We detect the visitor's region
+// and convert at render time using rates from the currency_rates table.
+let userCurrency = null; // { code, rate, symbol } or null (USD fallback)
+
+function detectUserCurrencyCode() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const lang = (navigator.language || 'en-US').toLowerCase();
+    // Map common timezones / locales to ISO currency codes.
+    const tzMap = [
+      [/Europe\/(?!London)/, 'EUR'],
+      [/Europe\/London|Europe\/Dublin/, 'GBP'],
+      [/Asia\/Kolkata|Asia\/Calcutta/, 'INR'],
+      [/Asia\/Tokyo/, 'JPY'],
+      [/Australia\//, 'AUD'],
+      [/America\/Toronto|America\/Vancouver|Canada\//, 'CAD'],
+      [/Asia\/Singapore/, 'SGD'],
+      [/Asia\/Dubai|Asia\/Abu_Dhabi|Middle East\//, 'AED'],
+      [/Africa\/Lagos/, 'NGN'],
+    ];
+    for (const [re, code] of tzMap) {
+      if (re.test(tz)) return code;
+    }
+    const langMap = { 'en-us': 'USD', 'en-gb': 'GBP', 'en-in': 'INR', 'en-au': 'AUD', 'en-ca': 'CAD', 'ja': 'JPY', 'de': 'EUR', 'fr': 'EUR', 'es': 'EUR', 'it': 'EUR', 'en-ng': 'NGN', 'en-sg': 'SGD', 'ar': 'AED' };
+    for (const key of Object.keys(langMap)) {
+      if (lang.startsWith(key)) return langMap[key];
+    }
+  } catch (e) {}
+  return 'USD';
 }
 
-function productCardHTML(product) {
+async function loadUserCurrency() {
+  if (userCurrency) return userCurrency;
+  const code = detectUserCurrencyCode();
+  if (code === 'USD') {
+    userCurrency = { code: 'USD', rate: 1, symbol: '$' };
+    return userCurrency;
+  }
+  try {
+    const { data } = await supabase.from('currency_rates').select('currency, rate, symbol').eq('currency', code).maybeSingle();
+    if (data && data.rate) {
+      userCurrency = { code: data.currency, rate: parseFloat(data.rate), symbol: data.symbol || data.currency + ' ' };
+    } else {
+      userCurrency = { code: 'USD', rate: 1, symbol: '$' };
+    }
+  } catch (e) {
+    userCurrency = { code: 'USD', rate: 1, symbol: '$' };
+  }
+  return userCurrency;
+}
+
+function formatConverted(amount, cur) {
+  const converted = (parseFloat(amount) || 0) * cur.rate;
+  const decimals = cur.code === 'JPY' || cur.code === 'NGN' ? 0 : 2;
+  const formatted = converted.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return `${cur.symbol}${formatted}`;
+}
+
+async function formatPrice(price, salePrice, currency) {
+  const cur = await loadUserCurrency();
+  const usePrice = (currency && currency !== 'USD') ? price : price; // base is USD; if a product overrides currency we still convert from USD base
+  if (salePrice && parseFloat(salePrice) > 0 && parseFloat(salePrice) < parseFloat(price)) {
+    return `<span class="text-2xl font-black text-error">${formatConverted(salePrice, cur)}</span><span class="text-sm text-slate-400 line-through ml-2">${formatConverted(price, cur)}</span>`;
+  }
+  return `<span class="text-2xl font-black text-text">${formatConverted(usePrice, cur)}</span>`;
+}
+
+async function renderPriceInto(el, price, salePrice, currency) {
+  if (!el) return;
+  try {
+    el.innerHTML = await formatPrice(price, salePrice, currency);
+  } catch (e) {
+    el.innerHTML = `$${parseFloat(price).toFixed(2)}`;
+  }
+}
+
+async function productCardHTML(product) {
   const onSale = product.sale_price && parseFloat(product.sale_price) > 0 && parseFloat(product.sale_price) < parseFloat(product.price);
   const badges = [];
   if (product.featured) badges.push('<span class="badge-featured px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">Featured</span>');
@@ -19,6 +87,7 @@ function productCardHTML(product) {
 
   const img = product.image || 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=400';
   const fallback = 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=400';
+  const priceHTML = await formatPrice(product.price, product.sale_price, product.currency);
 
   return `
     <a href="product.html?slug=${product.slug}" class="product-card group">
@@ -31,11 +100,15 @@ function productCardHTML(product) {
         <h3 class="font-bold text-base mb-1.5 group-hover:text-primary transition-colors">${product.title}</h3>
         <p class="text-xs text-slate-500 leading-relaxed mb-4 flex-grow">${product.short_description || product.subtitle || ''}</p>
         <div class="flex items-center justify-between">
-          <div>${formatPrice(product.price, product.sale_price, product.currency)}</div>
+          <div>${priceHTML}</div>
           <span class="text-[10px] text-slate-400 font-medium">${product.downloads || 'PDF'}</span>
         </div>
       </div>
     </a>`;
+}
+
+async function renderProductCards(products) {
+  return (await Promise.all(products.map(productCardHTML))).join('');
 }
 
 function blogCardHTML(post) {
@@ -168,12 +241,12 @@ async function loadFeaturedProducts() {
     if (!data || data.length === 0) {
       const { data: all } = await supabase.from('products').select('*').order('created_at', { ascending: false }).limit(4);
       if (all && all.length > 0) {
-        grid.innerHTML = all.map(productCardHTML).join('');
+        grid.innerHTML = await renderProductCards(all);
       } else {
         grid.innerHTML = '<p class="col-span-full text-center text-slate-400 py-12">No products available yet.</p>';
       }
     } else {
-      grid.innerHTML = data.map(productCardHTML).join('');
+      grid.innerHTML = await renderProductCards(data);
     }
     if (window.lucide) window.lucide.createIcons();
   } catch (e) {
@@ -191,12 +264,15 @@ async function loadBestsellers() {
     if (products.length === 0) {
       const { data: all } = await supabase.from('products').select('*').order('created_at', { ascending: false }).limit(6);
       if (all && all.length > 0) {
-        carousel.innerHTML = all.map(p => `<div class="min-w-[300px] max-w-[300px]">${productCardHTML(p)}</div>`).join('');
+        const cards = await renderProductCards(all);
+        carousel.innerHTML = all.map((p, i) => `<div class="min-w-[300px] max-w-[300px]">${(cards.match(/<a href="product.html\?slug=[^"]+"[\s\S]*?<\/a>/) || [''])[0]}</div>`).join('');
+        // Simpler: just render each card wrapped
+        carousel.innerHTML = (await Promise.all(all.map(async (p) => `<div class="min-w-[300px] max-w-[300px]">${await productCardHTML(p)}</div>`))).join('');
       } else {
         carousel.innerHTML = '<div class="w-full text-center text-slate-400 py-12">No products available.</div>';
       }
     } else {
-      carousel.innerHTML = products.map(p => `<div class="min-w-[300px] max-w-[300px]">${productCardHTML(p)}</div>`).join('');
+      carousel.innerHTML = (await Promise.all(products.map(async (p) => `<div class="min-w-[300px] max-w-[300px]">${await productCardHTML(p)}</div>`))).join('');
     }
     if (window.lucide) window.lucide.createIcons();
   } catch (e) {
@@ -220,15 +296,16 @@ async function loadProductsPage() {
       return;
     }
     grid.dataset.allProducts = JSON.stringify(data);
-    grid.innerHTML = data.map(productCardHTML).join('');
+    grid.innerHTML = await renderProductCards(data);
     if (window.lucide) window.lucide.createIcons();
+    renderCurrencyNote();
   } catch (e) {
     grid.innerHTML = '<p class="col-span-full text-center text-slate-400 py-12">Unable to load products.</p>';
   }
 
   const filterBtns = document.querySelectorAll('[data-filter]');
   filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       const filter = btn.dataset.filter;
       filterBtns.forEach((b) => {
         b.classList.remove('bg-primary', 'text-white', 'border-primary');
@@ -248,10 +325,19 @@ async function loadProductsPage() {
         });
       }
       grid.innerHTML = filtered.length > 0
-        ? filtered.map(productCardHTML).join('')
+        ? await renderProductCards(filtered)
         : '<p class="col-span-full text-center text-slate-400 py-12">No products in this category.</p>';
       if (window.lucide) window.lucide.createIcons();
     });
+  });
+}
+
+async function renderCurrencyNote() {
+  const cur = await loadUserCurrency();
+  if (cur.code === 'USD') return;
+  document.querySelectorAll('[data-currency-note]').forEach((el) => {
+    el.textContent = `Prices shown in ${cur.code}`;
+    el.classList.remove('hidden');
   });
 }
 
@@ -290,7 +376,7 @@ async function loadProductDetail() {
     if (subEl) subEl.textContent = data.subtitle || '';
 
     const priceEl = document.getElementById('product-price-section');
-    if (priceEl) priceEl.innerHTML = formatPrice(data.price, data.sale_price, data.currency);
+    if (priceEl) await renderPriceInto(priceEl, data.price, data.sale_price, data.currency);
 
     const checkoutBtn = document.getElementById('payhip-checkout-btn');
     if (checkoutBtn && data.payhip_url) {
@@ -312,7 +398,7 @@ async function loadProductDetail() {
     if (relatedGrid) {
       const { data: related } = await supabase.from('products').select('*').neq('id', data.id).limit(3);
       if (related && related.length > 0) {
-        relatedGrid.innerHTML = related.map(productCardHTML).join('');
+        relatedGrid.innerHTML = await renderProductCards(related);
       } else {
         relatedGrid.innerHTML = '<p class="col-span-full text-center text-slate-400 py-8">No related products.</p>';
       }
@@ -391,6 +477,25 @@ async function loadBlogPage() {
   }
 }
 
+// Unique blog view tracking: increment once per browser per post (localStorage dedupe).
+async function incrementBlogView(postId) {
+  if (!postId) return;
+  const key = `aivora_blog_viewed_${postId}`;
+  try {
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, '1');
+    const { data } = await supabase.from('blog_posts').select('views').eq('id', postId).maybeSingle();
+    const current = (data && typeof data.views === 'number') ? data.views : 0;
+    const { error } = await supabase.from('blog_posts').update({ views: current + 1, last_viewed_at: new Date().toISOString() }).eq('id', postId);
+    if (!error) {
+      const el = document.getElementById('blog-view-count');
+      if (el) el.textContent = String(current + 1);
+    }
+  } catch (e) {
+    // view tracking is best-effort; never break the page
+  }
+}
+
 async function loadBlogPostDetail() {
   const section = document.getElementById('blog-post-section');
   if (!section) return;
@@ -413,6 +518,11 @@ async function loadBlogPostDetail() {
     const img = data.cover_image || 'https://images.pexels.com/photos/5900545/pexels-photo-5900545.jpeg?auto=cs&s=800';
     const date = data.published_at || data.created_at?.split('T')[0] || '';
 
+    // Unique view tracking: increment once per browser per post.
+    incrementBlogView(data.id);
+
+    const viewsCount = data.views || 0;
+
     section.innerHTML = `
       <div class="max-w-3xl mx-auto px-6">
         <a href="blog.html" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary transition-colors mb-8">
@@ -425,7 +535,7 @@ async function loadBlogPostDetail() {
           <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">${(data.author || 'VJ')[0]}</div>
           <div>
             <p class="font-bold text-sm">${data.author || 'Voria Johnson'}</p>
-            <p class="text-xs text-slate-400">${date}</p>
+            <p class="text-xs text-slate-400">${date} · <span id="blog-view-count">${viewsCount}</span> views</p>
           </div>
         </div>
         <div class="relative overflow-hidden rounded-[24px] bg-white border border-slate-200 shadow-xl mb-10">
