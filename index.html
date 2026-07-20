@@ -28,10 +28,16 @@
     </div>
 
     <div class="aurora-bg">
+      <div class="gradient-orb gradient-orb-1"></div>
+      <div class="gradient-orb gradient-orb-2"></div>
+      <div class="gradient-orb gradient-orb-3"></div>
       <div class="blob blob-primary"></div>
       <div class="blob blob-secondary"></div>
       <div class="blob blob-accent"></div>
     </div>
+
+    <div class="dots-bg" id="dots-bg"></div>
+    <div class="noise-overlay"></div>
 
     <!-- Header Navigation -->
     <nav class="fixed top-0 inset-x-0 z-40 transition-all duration-300 py-5 border-b border-transparent">
@@ -77,23 +83,24 @@
     </nav>
 
     <!-- Hero -->
-    <header class="relative pt-40 pb-24 md:pt-52 md:pb-36 overflow-hidden">
+    <header class="relative pt-40 pb-24 md:pt-52 md:pb-36 overflow-hidden gradient-section-hero">
+      <div class="grid-pattern"></div>
       <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gradient-bg-soft border border-primary/20 text-primary text-xs font-semibold tracking-wide uppercase mb-8 reveal opacity-0">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full gradient-bg-soft border border-primary/20 text-primary text-xs font-semibold tracking-wide uppercase mb-8 anim-fade-up">
           <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
           Premium AI Marketplace
         </div>
 
-        <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] mb-8 reveal opacity-0" style="transition-delay: 150ms;">
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] mb-8 anim-stagger-words">
           <span class="gradient-text block">Premium AI Digital Products</span>
           <span class="text-text block mt-2">for Creators</span>
         </h1>
 
-        <p class="max-w-2xl mx-auto text-slate-500 text-base md:text-lg leading-relaxed mb-12 reveal opacity-0" style="transition-delay: 300ms;">
+        <p class="max-w-2xl mx-auto text-slate-500 text-base md:text-lg leading-relaxed mb-12 anim-fade-up delay-3">
           Discover AI prompt packs, templates, automation tools, spreadsheets, digital planners, business resources, and creator assets designed to help you work faster and smarter.
         </p>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 reveal opacity-0" style="transition-delay: 450ms;">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 anim-bounce-up delay-5">
           <a href="products.html" class="w-full sm:w-auto inline-flex items-center justify-center h-14 px-8 rounded-2xl btn-primary text-sm font-bold tracking-wider uppercase group">
             Browse Products
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="ml-2 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -104,7 +111,7 @@
         </div>
 
         <!-- Floating mockup showcase -->
-        <div class="relative max-w-5xl mx-auto reveal opacity-0" style="transition-delay: 600ms;">
+        <div class="relative max-w-5xl mx-auto anim-blur-reveal delay-6">
           <div class="absolute inset-0 gradient-bg-soft blur-3xl opacity-70"></div>
           <div class="relative glass-panel rounded-[24px] p-4 md:p-6 border border-slate-200 shadow-2xl">
             <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-4">
@@ -158,7 +165,7 @@
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16 reveal opacity-0">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Browse by Category</span>
-          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Explore Collections</h2>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight anim-stagger-words">Explore Collections</h2>
           <p class="text-slate-500 mt-4">Find exactly what you need across our curated digital product categories.</p>
         </div>
 
@@ -229,7 +236,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal opacity-0">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Featured Products</span>
-            <h2 class="text-3xl md:text-5xl font-black tracking-tight">Handpicked for You</h2>
+            <h2 class="text-3xl md:text-5xl font-black tracking-tight anim-stagger-words">Handpicked for You</h2>
           </div>
           <a href="products.html" class="inline-flex items-center text-sm font-semibold text-primary hover:gap-2 transition-all gap-1">
             View all products
@@ -253,7 +260,7 @@
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16 reveal opacity-0">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Why Choose Aivora</span>
-          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Built for serious creators</h2>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight anim-stagger-words">Built for serious creators</h2>
           <p class="text-slate-500 mt-4">Every product is crafted to help you ship faster and smarter.</p>
         </div>
 
@@ -296,7 +303,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal opacity-0">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Best Sellers</span>
-            <h2 class="text-3xl md:text-5xl font-black tracking-tight">Top downloads this week</h2>
+            <h2 class="text-3xl md:text-5xl font-black tracking-tight anim-stagger-words">Top downloads this week</h2>
           </div>
           <div class="flex gap-2">
             <button id="carousel-prev" aria-label="Previous" class="w-11 h-11 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary transition">
@@ -322,7 +329,7 @@
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-16 reveal opacity-0">
           <span class="text-xs font-semibold uppercase tracking-widest text-primary mb-2 block">Testimonials</span>
-          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Loved by creators worldwide</h2>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight anim-stagger-words">Loved by creators worldwide</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -388,7 +395,7 @@
           <div class="absolute inset-0 gradient-bg"></div>
           <div class="absolute -top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
           <div class="relative z-10 text-center text-white">
-            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4">Stay Updated</h2>
+            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4 anim-gradient-shimmer">Stay Updated</h2>
             <p class="max-w-md mx-auto text-white/80 text-sm md:text-base mb-8">Get notified whenever new AI resources and premium digital products are released.</p>
             <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-4">
               <input type="email" required placeholder="Enter your email" class="flex-grow h-12 px-5 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:bg-white/25 transition-all text-sm" />

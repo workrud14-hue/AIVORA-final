@@ -1052,12 +1052,80 @@ async function sendBlogNotification(subscriberEmail, postTitle, postUrl) {
   } catch (e) { /* best-effort */ }
 }
 
+// --- Text Animations ---
+function splitIntoWords(el) {
+  const text = el.textContent.trim();
+  el.innerHTML = text.split(/\s+/).map((word, i) =>
+    '<span class="word" style="transition-delay:' + (i * 0.08) + 's">' + word + '</span>'
+  ).join(' ');
+}
+
+function splitIntoLetters(el) {
+  const text = el.textContent.trim();
+  el.innerHTML = text.split('').map((ch, i) =>
+    ch === ' ' ? ' ' : '<span class="letter" style="transition-delay:' + (i * 0.03) + 's">' + ch + '</span>'
+  ).join('');
+}
+
+function initTextAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        // Stagger words
+        if (el.classList.contains('anim-stagger-words')) {
+          splitIntoWords(el);
+          requestAnimationFrame(() => el.classList.add('visible'));
+        }
+        // Stagger letters
+        else if (el.classList.contains('anim-stagger-letters')) {
+          splitIntoLetters(el);
+          requestAnimationFrame(() => el.classList.add('visible'));
+        }
+        // Simple animations
+        else {
+          el.classList.add('visible');
+        }
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  // Observe all elements with animation classes
+  document.querySelectorAll(
+    '.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-up, ' +
+    '.anim-stagger-words, .anim-stagger-letters, .anim-bounce-up, ' +
+    '.anim-blur-reveal, .anim-underline'
+  ).forEach((el) => observer.observe(el));
+}
+
+// --- Animated Floating Dots ---
+function initAnimatedDots() {
+  const container = document.getElementById('dots-bg');
+  if (!container) return;
+  const colors = ['dot-blue', 'dot-teal', 'dot-amber', 'dot-purple', 'dot-rose'];
+  const count = window.innerWidth < 768 ? 15 : 30;
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('div');
+    const size = Math.random() * 6 + 2;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const duration = Math.random() * 20 + 15;
+    const delay = Math.random() * 20;
+    dot.className = 'dot-particle ' + color;
+    dot.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + left + '%;animation-duration:' + duration + 's;animation-delay:-' + delay + 's;';
+    container.appendChild(dot);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initTextAnimations();
   initScrollProgress();
   initNavScroll();
   initMobileMenu();
   initBackToTop();
-  initRevealAnimations();
+  initAnimatedDots();
+    initRevealAnimations();
   initFAQAccordion();
   initNewsletterForm();
   initAdminShortcut();
