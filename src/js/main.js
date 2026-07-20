@@ -391,9 +391,9 @@ async function loadProductDetail() {
     const stickyPrice = document.getElementById('sticky-product-price');
     if (stickyPrice) {
       try {
-        stickyPrice.textContent = await formatPrice(data.price, data.sale_price, data.currency);
+        stickyPrice.innerHTML = await formatPrice(data.price, data.sale_price, data.currency);
       } catch (e) {
-        stickyPrice.textContent = '$' + parseFloat(data.price).toFixed(2);
+        stickyPrice.innerHTML = '$' + parseFloat(data.price).toFixed(2);
       }
     }
     const stickyThumb = document.getElementById('sticky-product-thumb');
